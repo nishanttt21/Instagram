@@ -9,3 +9,10 @@ annotation class DatabaseInfo
 @Qualifier
 @Retention(AnnotationRetention.SOURCE)
 annotation class NetworkInfo
+@Qualifier
+@Retention(AnnotationRetention.SOURCE)
+annotation class ApplicationContext
+
+@Qualifier
+@Retention(AnnotationRetention.SOURCE)
+annotation class ActivityContext
