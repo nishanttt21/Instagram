@@ -1,34 +1,13 @@
 package com.example.instagram.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.example.instagram.InstagramApp
 import com.example.instagram.R
-import com.example.instagram.di.component.DaggerActivityComponent
-import com.example.instagram.di.module.ActivityModule
+import com.example.instagram.di.component.ActivityComponent
+import com.example.instagram.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var viewModel: MainViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        getDependencies()
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        addHomeFragment()
-
-        viewModel.user.observe(this, Observer {
-            textview.text = it.toString()
-        })
-
-        viewModel.allUser.observe(this, Observer {
-            textview.text = it.toString()
-        })
-    }
+class MainActivity : BaseActivity<MainViewModel>() {
 
     private fun addHomeFragment() {
         if (supportFragmentManager.findFragmentByTag(HomeFragment.TAG) == null) {
@@ -37,15 +16,6 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.container_fragment, HomeFragment.newInstance(), HomeFragment.TAG)
                 .commit()
         }
-    }
-
-    private fun getDependencies() {
-        DaggerActivityComponent
-            .builder()
-            .applicationComponent((application as InstagramApp).applicationComponent)
-            .activityModule(ActivityModule(this))
-            .build()
-            .inject(this)
     }
 
     override fun onStart() {
@@ -63,5 +33,30 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         viewModel.onDestroy()
         super.onDestroy()
+    }
+
+    override fun provideLayoutId(): Int = R.layout.activity_main
+
+    override fun setupView(savedInstanceState: Bundle?) {
+        addHomeFragment()
+    }
+
+    override fun injectDependencies(activityComponent: ActivityComponent) =
+        activityComponent.inject(this)
+
+    override fun setupObservers() {
+        super.setupObservers()
+        viewModel.data.observe(this, Observer {
+            textview.text = it
+        })
+
+
+        viewModel.user.observe(this, Observer {
+            textview.text = it.toString()
+        })
+
+        viewModel.allUser.observe(this, Observer {
+            textview.text = it.toString()
+        })
     }
 }

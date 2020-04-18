@@ -1,27 +1,34 @@
 package com.example.instagram.ui
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.instagram.data.local.DatabaseService
 import com.example.instagram.data.local.entity.Address
 import com.example.instagram.data.local.entity.User
 import com.example.instagram.data.remote.NetworkService
+import com.example.instagram.ui.base.BaseViewModel
 import com.example.instagram.utils.NetworkHelper
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
-import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class MainViewModel @Inject constructor(private val compositeDisposable: CompositeDisposable,
-                                        private val databaseService: DatabaseService,
-                                        private val networkService: NetworkService) {
+class MainViewModel(
+    compositeDisposable: CompositeDisposable,
+    networkHelper: NetworkHelper,
+    private val databaseService: DatabaseService,
+    private val networkService: NetworkService
+) : BaseViewModel(compositeDisposable, networkHelper) {
 
     companion object {
         const val TAG = "MainViewModel"
     }
 
+    private val _data = MutableLiveData<String>()
+    val data: LiveData<String>
+        get() = _data
     val user = MutableLiveData<User>()
     val allUser = MutableLiveData<List<User>>()
     val allAddress = MutableLiveData<List<Address>>()
@@ -50,15 +57,38 @@ class MainViewModel @Inject constructor(private val compositeDisposable: Composi
                                 databaseService
                                     .userDao()
                                     .insertMany(
-                                        User(name = "Test 1", addressId = addressIds[0], dateOfBirth = Date(959684579)),
-                                        User(name = "Test 1", addressId = addressIds[1], dateOfBirth = Date(959684579)),
-                                        User(name = "Test 1", addressId = addressIds[2], dateOfBirth = Date(959684579)),
-                                        User(name = "Test 1", addressId = addressIds[3], dateOfBirth = Date(959684579)),
-                                        User(name = "Test 1", addressId = addressIds[4], dateOfBirth = Date(959684579)),
-                                        User(name = "Test 1", addressId = addressIds[5], dateOfBirth = Date(959684579))
+                                        User(
+                                            name = "Test 1",
+                                            addressId = addressIds[0],
+                                            dateOfBirth = Date(959684579)
+                                        ),
+                                        User(
+                                            name = "Test 1",
+                                            addressId = addressIds[1],
+                                            dateOfBirth = Date(959684579)
+                                        ),
+                                        User(
+                                            name = "Test 1",
+                                            addressId = addressIds[2],
+                                            dateOfBirth = Date(959684579)
+                                        ),
+                                        User(
+                                            name = "Test 1",
+                                            addressId = addressIds[3],
+                                            dateOfBirth = Date(959684579)
+                                        ),
+                                        User(
+                                            name = "Test 1",
+                                            addressId = addressIds[4],
+                                            dateOfBirth = Date(959684579)
+                                        ),
+                                        User(
+                                            name = "Test 1",
+                                            addressId = addressIds[5],
+                                            dateOfBirth = Date(959684579)
+                                        )
                                     )
                             }
-
                     else Single.just(0)
                 }
                 .subscribeOn(Schedulers.io())
@@ -72,6 +102,10 @@ class MainViewModel @Inject constructor(private val compositeDisposable: Composi
                 )
         )
 
+    }
+
+    override fun onCreate() {
+        _data.value = "Main View Model"
     }
 
     fun getAllUser() {
