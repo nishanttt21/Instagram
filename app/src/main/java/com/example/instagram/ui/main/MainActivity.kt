@@ -1,10 +1,11 @@
-package com.example.instagram.ui
+package com.example.instagram.ui.main
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.instagram.R
 import com.example.instagram.di.component.ActivityComponent
 import com.example.instagram.ui.base.BaseActivity
+import com.example.instagram.ui.home.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainViewModel>() {

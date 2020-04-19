@@ -1,4 +1,4 @@
-package com.example.instagram.ui
+package com.example.instagram.ui.main
 
 import android.util.Log
 import androidx.lifecycle.LiveData
