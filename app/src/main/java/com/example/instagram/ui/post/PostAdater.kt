@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import com.example.instagram.ui.base.BaseAdapter
 
-class PostAdater(
+class PostAdapter(
     parentLifecycle: Lifecycle,
     postList: ArrayList<Post>
 ) : BaseAdapter<Post, PostViewHolder>(parentLifecycle, postList) {

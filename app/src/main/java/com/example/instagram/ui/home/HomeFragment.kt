@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
-import com.example.instagram.ui.post.PostAdater
+import com.example.instagram.ui.post.PostAdapter
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import javax.inject.Inject
 
@@ -29,21 +29,21 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     lateinit var linearLayoutManager: LinearLayoutManager
 
     @Inject
-    lateinit var postAdater: PostAdater
+    lateinit var postAdapter: PostAdapter
 
     override fun provideLayoutId(): Int = R.layout.fragment_home
 
     override fun setupView(view: View) {
         view.postRecyclerView.apply {
             layoutManager = linearLayoutManager
-            adapter = postAdater
+            adapter = postAdapter
         }
     }
 
     override fun setupObservers() {
         super.setupObservers()
         viewModel.data.observe(this, Observer {
-            postAdater.appendData(it)
+            postAdapter.appendData(it)
         })
     }
 

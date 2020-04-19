@@ -1,14 +1,20 @@
 package com.example.instagram.di.module
 
+import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
+import com.example.instagram.BuildConfig
 import com.example.instagram.InstagramApp
 import com.example.instagram.data.local.DatabaseService
-import com.example.instagram.data.local.MIGRATION_1_2
+import com.example.instagram.data.remote.NetworkService
+import com.example.instagram.data.remote.Networking
 import com.example.instagram.di.ApplicationContext
 import com.example.instagram.di.DatabaseInfo
 import com.example.instagram.di.NetworkInfo
-import com.example.instagram.utils.NetworkHelper
+import com.example.instagram.utils.network.NetworkHelper
+import com.example.instagram.utils.rx.RxSchedulerProvider
+import com.example.instagram.utils.rx.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -18,33 +24,71 @@ import javax.inject.Singleton
 class ApplicationModule(private val app:InstagramApp) {
     @ApplicationContext
     @Provides
-    fun context():Context = app
+    fun provideContext(): Context = app
+
+    @Provides
+    @Singleton
+    fun provideApplication(): Application = app
 
     @DatabaseInfo
     @Provides
-    fun provideDbName():String = "Custom DB"
+    fun provideDbName(): String = "Custom DB"
 
     @NetworkInfo
     @Provides
-    fun provideApiKey():String = "Custom API"
+    fun provideApiKey(): String = "Custom API"
 
     @Provides
     fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
+
     @Provides
-    fun provideDbVersion():Int = 1
+    fun provideDbVersion(): Int = 1
+//    @Provides
+//    @Singleton
+//    fun provideDatabaseService(): DatabaseService = Room.databaseBuilder(
+//        app,
+//        DatabaseService::class.java,
+//        "bootcamp-database-project-db")
+//        .addMigrations(MIGRATION_1_2)
+//        .build()
+
+    @Provides
+    fun provideSchedulerProvider(): SchedulerProvider = RxSchedulerProvider()
+
     @Provides
     @Singleton
-    fun provideDatabaseService(): DatabaseService = Room.databaseBuilder(
-        app,
-        DatabaseService::class.java,
-        "bootcamp-database-project-db")
-        .addMigrations(MIGRATION_1_2)
-        .build()
+    fun provideSharedPreferences(): SharedPreferences =
+        app.getSharedPreferences("bootcamp-instagram-project-prefs", Context.MODE_PRIVATE)
+
+    /**
+     * We need to write @Singleton on the provide method if we are create the instance inside this method
+     * to make it singleton. Even if we have written @Singleton on the instance's class
+     */
     @Provides
-    fun provideNetworkHelper():NetworkHelper = NetworkHelper(app)
+    @Singleton
+    fun provideDatabaseService(): DatabaseService =
+        Room.databaseBuilder(
+            app, DatabaseService::class.java,
+            "bootcamp-instagram-project-db"
+        ).build()
+
+    @Provides
+    @Singleton
+    fun provideNetworkService(): NetworkService =
+        Networking.create(
+            BuildConfig.API_KEY,
+            BuildConfig.BASE_URL,
+            app.cacheDir,
+            10 * 1024 * 1024 // 10MB
+        )
+
+    @Singleton
+    @Provides
+    fun provideNetworkHelper(): NetworkHelper = NetworkHelper(app)
+
 //    @Singleton
 //    @Provides
-//    fun provideNetworkService():NetworkService = NetworkService(app,"MyKey")
+//    fun provideNetworkService(): NetworkService = NetworkService(app,"MyKey")
 //    @Singleton
 //    @Provides
 //    fun provideDatabaseService():DataBaseService = DataBaseService(app,"DB name",2)

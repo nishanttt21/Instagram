@@ -4,11 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.instagram.data.local.DatabaseService
-import com.example.instagram.data.local.entity.Address
-import com.example.instagram.data.local.entity.User
+import com.example.instagram.data.local.db.dao.entity.Address
+import com.example.instagram.data.local.db.dao.entity.User
 import com.example.instagram.data.remote.NetworkService
 import com.example.instagram.ui.base.BaseViewModel
-import com.example.instagram.utils.NetworkHelper
+import com.example.instagram.utils.network.NetworkHelper
+import com.example.instagram.utils.rx.SchedulerProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -16,11 +17,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainViewModel(
+    schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
     private val databaseService: DatabaseService,
-    private val networkService: NetworkService
-) : BaseViewModel(compositeDisposable, networkHelper) {
+    networkService: NetworkService
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
     companion object {
         const val TAG = "MainViewModel"

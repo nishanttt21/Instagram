@@ -1,7 +1,7 @@
-package com.example.instagram.data.local.dao
+package com.example.instagram.data.local.db.dao
 
 import androidx.room.*
-import com.example.instagram.data.local.entity.Address
+import com.example.instagram.data.local.db.dao.entity.Address
 import io.reactivex.Single
 
 

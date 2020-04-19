@@ -6,15 +6,17 @@ import com.example.instagram.data.local.DatabaseService
 import com.example.instagram.data.remote.NetworkService
 import com.example.instagram.ui.base.BaseViewModel
 import com.example.instagram.ui.post.Post
-import com.example.instagram.utils.NetworkHelper
+import com.example.instagram.utils.network.NetworkHelper
+import com.example.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
 class HomeViewModel(
     compositeDisposable: CompositeDisposable,
+    schedulerProvider: SchedulerProvider,
     private val databaseService: DatabaseService,
     private val networkService: NetworkService,
     networkHelper: NetworkHelper
-) : BaseViewModel(compositeDisposable, networkHelper) {
+) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
 
     private val _data = MutableLiveData<List<Post>>()

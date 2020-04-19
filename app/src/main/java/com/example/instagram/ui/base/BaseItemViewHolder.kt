@@ -63,10 +63,10 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
 
     protected open fun setupObservers() {
         viewModel.messageString.observe(this, Observer {
-            showMessage(it)
+            it.data?.let { showMessage(it) }
         })
         viewModel.messageStringId.observe(this, Observer {
-            showMessage(it)
+            it.data?.let { showMessage(it) }
         })
     }
 
