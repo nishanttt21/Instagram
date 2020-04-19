@@ -1,4 +1,4 @@
-package com.example.instagram.ui.login
+package com.example.instagram.ui.signup
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,20 +9,16 @@ import com.example.instagram.R
 import com.example.instagram.di.component.ActivityComponent
 import com.example.instagram.ui.base.BaseActivity
 import com.example.instagram.ui.dummy.DummyActivity
-import com.example.instagram.ui.signup.SignUpActivity
+import com.example.instagram.ui.login.LoginActivity
 import com.example.instagram.utils.common.Status
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_signup.*
 
-class LoginActivity : BaseActivity<LoginViewModel>() {
-
+class SignUpActivity : BaseActivity<SignUpViewModel>() {
     companion object {
         private val TAG = SignUpActivity::class.simpleName
     }
 
-    override fun provideLayoutId(): Int = R.layout.activity_login
-
-    override fun injectDependencies(activityComponent: ActivityComponent):
-            Unit = activityComponent.inject(this)
+    override fun provideLayoutId(): Int = R.layout.activity_signup
 
     override fun setupView(savedInstanceState: Bundle?) {
         et_email.doOnTextChanged { text, _, _, _ ->
@@ -31,13 +27,20 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         et_password.doOnTextChanged { text, _, _, _ ->
             viewModel.onPasswordChange(text.toString())
         }
-        btn_login.setOnClickListener {
-            viewModel.doLogin()
+        et_name.doOnTextChanged { text, _, _, _ ->
+            viewModel.onNameChange(text.toString())
         }
-        signUpWithEmailBtn.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
+
+        btn_sign_up.setOnClickListener {
+            viewModel.doSignUp()
+        }
+        loginWithEmailBtn.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
+
+    override fun injectDependencies(activityComponent: ActivityComponent) =
+        activityComponent.inject(this)
 
     override fun setupObservers() {
         super.setupObservers()
@@ -55,6 +58,10 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
             if (it != et_password.text.toString())
                 et_password.setText(it)
         })
+        viewModel.nameField.observe(this, Observer {
+            if (it != et_name.text.toString())
+                et_name.setText(it)
+        })
 
         viewModel.emailValidation.observe(this, Observer {
             when (it.status) {
@@ -69,9 +76,16 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
                 else -> password_layout.isErrorEnabled = false
             }
         })
-        viewModel.loggingIn.observe(this, Observer {
+        viewModel.nameValidation.observe(this, Observer {
+            when (it.status) {
+                Status.ERROR -> name_layout.error = it.data?.run { getString(this) }
+                else -> name_layout.isErrorEnabled = false
+            }
+        })
+        viewModel.signingIn.observe(this, Observer {
             pb_loading.visibility = if (it) View.VISIBLE else View.GONE
         })
-    }
 
+
+    }
 }

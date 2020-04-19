@@ -11,6 +11,7 @@ import com.example.instagram.ui.base.BaseActivity
 import com.example.instagram.ui.dummy.DummyViewModel
 import com.example.instagram.ui.login.LoginViewModel
 import com.example.instagram.ui.main.MainViewModel
+import com.example.instagram.ui.signup.SignUpViewModel
 import com.example.instagram.ui.splash.SplashViewModel
 import com.example.instagram.utils.ViewModelProviderFactory
 import com.example.instagram.utils.network.NetworkHelper
@@ -81,4 +82,15 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         activity, ViewModelProviderFactory(LoginViewModel::class) {
             LoginViewModel(schedulerProvider, compositeDisposable, networkHelper, repository)
         }).get(LoginViewModel::class.java)
+
+    @Provides
+    fun provideSignUpViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        repository: UserRepository
+    ): SignUpViewModel = ViewModelProvider(
+        activity, ViewModelProviderFactory(SignUpViewModel::class) {
+            SignUpViewModel(schedulerProvider, compositeDisposable, networkHelper, repository)
+        }).get(SignUpViewModel::class.java)
 }

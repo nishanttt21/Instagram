@@ -2,8 +2,10 @@ package com.example.instagram.data.remote
 
 import com.example.instagram.data.remote.request.DummyRequest
 import com.example.instagram.data.remote.request.LoginRequest
+import com.example.instagram.data.remote.request.SignUpRequest
 import com.example.instagram.data.remote.response.DummyResponse
 import com.example.instagram.data.remote.response.LoginResponse
+import com.example.instagram.data.remote.response.SignUpResponse
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.Header
@@ -25,6 +27,12 @@ interface NetworkService {
         @Body request: LoginRequest,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY // default value set when Networking create is called
     ): Single<LoginResponse>
+
+    @POST(Endpoints.SIGN_UP)
+    fun doSignUpCall(
+        @Body request: SignUpRequest,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY // default value set when Networking create is called
+    ): Single<SignUpResponse>
 
     /*
      * Example to add other headers

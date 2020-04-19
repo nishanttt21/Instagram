@@ -8,6 +8,7 @@ import com.example.instagram.di.component.ActivityComponent
 import com.example.instagram.ui.base.BaseActivity
 import com.example.instagram.ui.dummy.DummyActivity
 import com.example.instagram.ui.login.LoginActivity
+import com.example.instagram.ui.signup.SignUpActivity
 import com.example.instagram.utils.common.Event
 
 class SplashActivity : BaseActivity<SplashViewModel>() {
@@ -36,6 +37,11 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         viewModel.launchLogin.observe(this, Observer<Event<Map<String, String>>> {
             it.getIfNotHandled()?.run {
                 startActivity(Intent(applicationContext, LoginActivity::class.java))
+            }
+        })
+        viewModel.launchSignUP.observe(this, Observer<Event<Map<String, String>>> {
+            it.getIfNotHandled()?.run {
+                startActivity(Intent(applicationContext, SignUpActivity::class.java))
             }
         })
     }

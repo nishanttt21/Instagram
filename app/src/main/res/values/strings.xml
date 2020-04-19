@@ -15,4 +15,13 @@
     <string name="password_cant_empty">Password Can\'t be Empty</string>
     <string name="not_valid_email">Not a Valid Email</string>
     <string name="not_valid_password">Password less than 6 digit</string>
+    <string name="not_valid_name">Name is too short</string>
+    <string name="instagram_logo">Instagram Logo</string>
+    <string name="sign_up_with_email">Sign Up with Email</string>
+    <string name="enter_full_name_id_hint">Enter your full name</string>
+    <string name="signup_button_text">Sign up</string>
+    <string name="choose_password_hint">Choose your password</string>
+    <string name="login_with_email">Login with Email</string>
+    <string name="or_text">OR</string>
+    <string name="name_cant_empty">Name Can\'t be Empty</string>
 </resources>
