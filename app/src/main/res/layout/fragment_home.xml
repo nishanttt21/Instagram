@@ -15,7 +15,7 @@
             android:id="@+id/appBarLayout"
             android:layout_width="0dp"
             android:layout_height="?actionBarSize"
-            android:background="@color/colorBlue"
+            android:background="@color/colorWhite"
             android:elevation="6dp"
             android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"

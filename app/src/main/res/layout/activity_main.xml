@@ -13,31 +13,30 @@
         tools:context=".ui.main.MainActivity">
 
         <FrameLayout
-            android:id="@+id/container_fragment"
+            android:id="@+id/containerFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="40dp"
             android:clipToPadding="false"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></FrameLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/viewShadow"
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:background="@drawable/shadow"
-            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView" />
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigation" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
+            android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
-            android:elevation="8dp"
-            app:itemIconTint="@color/colorBlack"
             app:labelVisibilityMode="unlabeled"
+            app:elevation="8dp"
+            app:itemIconTint="@color/colorBlack"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/menu_bottom_navigation" />
     </androidx.constraintlayout.widget.ConstraintLayout>

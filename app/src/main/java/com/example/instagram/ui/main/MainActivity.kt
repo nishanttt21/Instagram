@@ -18,7 +18,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun setupView(savedInstanceState: Bundle?) {
 
-        binding.bottomNavigationView.run {
+        binding.bottomNavigation.run {
             itemIconTintList = null
             setOnNavigationItemSelectedListener {
                 when (it.itemId) {
