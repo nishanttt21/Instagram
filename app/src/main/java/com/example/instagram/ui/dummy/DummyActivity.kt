@@ -2,14 +2,15 @@ package com.example.instagram.ui.dummy
 
 import android.os.Bundle
 import com.example.instagram.R
+import com.example.instagram.databinding.ActivityDummyBinding
 import com.example.instagram.di.component.ActivityComponent
 import com.example.instagram.ui.base.BaseActivity
 import com.example.instagram.ui.dummies.DummiesFragment
 
-class DummyActivity : BaseActivity<DummyViewModel>() {
+class DummyActivity : BaseActivity<ActivityDummyBinding, DummyViewModel>() {
 
     companion object {
-        const val TAG = "DummyActivity"
+        private const val TAG = "DummyActivity"
     }
 
     override fun provideLayoutId(): Int = R.layout.activity_dummy
@@ -25,7 +26,7 @@ class DummyActivity : BaseActivity<DummyViewModel>() {
     private fun addDummiesFragment() {
         supportFragmentManager.findFragmentByTag(DummiesFragment.TAG) ?: supportFragmentManager
             .beginTransaction()
-            .add(R.id.container_fragment, DummiesFragment.newInstance(), DummiesFragment.TAG)
+            .add(binding.containerFragment.id, DummiesFragment.newInstance(), DummiesFragment.TAG)
             .commitAllowingStateLoss()
     }
 }

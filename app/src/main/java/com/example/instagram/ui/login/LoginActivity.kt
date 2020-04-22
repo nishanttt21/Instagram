@@ -6,18 +6,14 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import com.example.instagram.R
+import com.example.instagram.databinding.ActivityLoginBinding
 import com.example.instagram.di.component.ActivityComponent
 import com.example.instagram.ui.base.BaseActivity
-import com.example.instagram.ui.dummy.DummyActivity
+import com.example.instagram.ui.main.MainActivity
 import com.example.instagram.ui.signup.SignUpActivity
 import com.example.instagram.utils.common.Status
-import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : BaseActivity<LoginViewModel>() {
-
-    companion object {
-        private val TAG = SignUpActivity::class.simpleName
-    }
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
     override fun provideLayoutId(): Int = R.layout.activity_login
 
@@ -25,53 +21,57 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
             Unit = activityComponent.inject(this)
 
     override fun setupView(savedInstanceState: Bundle?) {
-        et_email.doOnTextChanged { text, _, _, _ ->
+        binding.etEmail.doOnTextChanged { text, _, _, _ ->
             viewModel.onEmailChange(text.toString())
         }
-        et_password.doOnTextChanged { text, _, _, _ ->
+        binding.etPassword.doOnTextChanged { text, _, _, _ ->
             viewModel.onPasswordChange(text.toString())
         }
-        btn_login.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             viewModel.doLogin()
         }
-        signUpWithEmailBtn.setOnClickListener {
+        binding.signUpWithEmailBtn.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
     }
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.launchDummy.observe(this, Observer {
+        viewModel.launchMain.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                startActivity(Intent(applicationContext, DummyActivity::class.java))
+                startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }
         })
         viewModel.emailField.observe(this, Observer {
-            if (it != et_email.text.toString())
-                et_email.setText(it)
+            if (it != binding.etEmail.text.toString())
+                binding.etEmail.setText(it)
         })
         viewModel.passwordField.observe(this, Observer {
-            if (it != et_password.text.toString())
-                et_password.setText(it)
+            if (it != binding.etPassword.text.toString())
+                binding.etPassword.setText(it)
         })
 
         viewModel.emailValidation.observe(this, Observer {
             when (it.status) {
-                Status.ERROR -> email_layout.error = it.data?.run { getString(this) }
-                else -> email_layout.isErrorEnabled = false
+                Status.ERROR -> binding.emailLayout.error = it.data?.run { getString(this) }
+                else -> binding.emailLayout.isErrorEnabled = false
             }
         })
 
         viewModel.passwordValidation.observe(this, Observer {
             when (it.status) {
-                Status.ERROR -> password_layout.error = it.data?.run { getString(this) }
-                else -> password_layout.isErrorEnabled = false
+                Status.ERROR -> binding.passwordLayout.error = it.data?.run { getString(this) }
+                else -> binding.passwordLayout.isErrorEnabled = false
             }
         })
         viewModel.loggingIn.observe(this, Observer {
-            pb_loading.visibility = if (it) View.VISIBLE else View.GONE
+            binding.pbLoading.visibility = if (it) View.VISIBLE else View.GONE
         })
+    }
+
+    companion object {
+        private const val TAG = "LoginActivity"
     }
 
 }

@@ -2,8 +2,6 @@ package com.example.instagram.di.module
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
-import com.example.instagram.data.local.DatabaseService
-import com.example.instagram.data.remote.NetworkService
 import com.example.instagram.data.repository.DummyRepository
 import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.di.ActivityContext
@@ -21,7 +19,7 @@ import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 
 @Module
-class ActivityModule(private val activity: BaseActivity<*>) {
+class ActivityModule(private val activity: BaseActivity<*, *>) {
     @ActivityContext
     @Provides
     fun provideContext(): Context = activity
@@ -30,18 +28,15 @@ class ActivityModule(private val activity: BaseActivity<*>) {
     fun provideMainViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        databaseService: DatabaseService,
-        networkService: NetworkService
-    ): MainViewModel = ViewModelProvider(activity, ViewModelProviderFactory(
+        networkHelper: NetworkHelper
+    ): MainViewModel = ViewModelProvider(
+        activity, ViewModelProviderFactory(
         MainViewModel::class
     ) {
         MainViewModel(
             schedulerProvider,
             compositeDisposable,
-            networkHelper,
-            databaseService,
-            networkService
+            networkHelper
         )
     }
     ).get(MainViewModel::class.java)

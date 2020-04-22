@@ -1,11 +1,8 @@
 package com.example.instagram.ui.base
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
@@ -17,10 +14,10 @@ import com.example.instagram.di.component.ViewHolderComponent
 import com.example.instagram.di.module.ViewHolderModule
 import javax.inject.Inject
 
-abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
-    @LayoutRes layoutId: Int, parent: ViewGroup
-) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false)),
-    LifecycleOwner {
+abstract class BaseItemViewHolder<DB : ViewDataBinding, T : Any, VM : BaseItemViewModel<T>>(
+    protected val binding: DB
+) :
+    RecyclerView.ViewHolder(binding.root), LifecycleOwner {
     @Inject
     lateinit var viewModel: VM
 
@@ -31,7 +28,7 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
         viewModel.updateData(data)
     }
 
-    protected abstract fun setupView(view: View)
+    protected abstract fun setupView()
 
     protected abstract fun injectDependencies(viewHolderComponent: ViewHolderComponent)
 
@@ -44,7 +41,7 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
         lifecycleRegistry.currentState = Lifecycle.State.INITIALIZED
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
         setupObservers()
-        setupView(itemView)
+        setupView()
     }
 
     fun onStart() {
@@ -63,10 +60,10 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
 
     protected open fun setupObservers() {
         viewModel.messageString.observe(this, Observer {
-            it.data?.let { showMessage(it) }
+            it.data?.run { showMessage(this) }
         })
         viewModel.messageStringId.observe(this, Observer {
-            it.data?.let { showMessage(it) }
+            it.data?.run { showMessage(this) }
         })
     }
 

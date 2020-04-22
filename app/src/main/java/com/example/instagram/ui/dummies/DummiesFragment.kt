@@ -5,16 +5,16 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
+import com.example.instagram.databinding.FragmentDummiesBinding
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_dummies.*
 import javax.inject.Inject
 
-class DummiesFragment : BaseFragment<DummiesViewModel>() {
+class DummiesFragment : BaseFragment<FragmentDummiesBinding, DummiesViewModel>() {
 
     companion object {
 
-        const val TAG = "DummiesFragment"
+        internal const val TAG = "DummiesFragment"
 
         fun newInstance(): DummiesFragment {
             val args = Bundle()
@@ -43,8 +43,10 @@ class DummiesFragment : BaseFragment<DummiesViewModel>() {
     }
 
     override fun setupView(view: View) {
-        rv_dummy.layoutManager = linearLayoutManager
-        rv_dummy.adapter = dummiesAdapter
+        binding.rvDummy.apply {
+            layoutManager = linearLayoutManager
+            adapter = dummiesAdapter
+        }
     }
 
 }

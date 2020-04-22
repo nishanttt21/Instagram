@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import com.example.instagram.InstagramApp
 import com.example.instagram.data.local.DatabaseService
 import com.example.instagram.data.remote.NetworkService
+import com.example.instagram.data.repository.PostRepository
 import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.di.ApplicationContext
 import com.example.instagram.di.module.ApplicationModule
@@ -54,6 +55,7 @@ interface ApplicationComponent {
      *---------------------------------------------------------------------------------
      */
     fun getUserRepository(): UserRepository
+    fun getPostRepository(): PostRepository
 
     fun getSchedulerProvider(): SchedulerProvider
 }

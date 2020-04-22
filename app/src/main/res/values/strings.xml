@@ -24,4 +24,10 @@
     <string name="login_with_email">Login with Email</string>
     <string name="or_text">OR</string>
     <string name="name_cant_empty">Name Can\'t be Empty</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_add_photos">Add Photos</string>
+    <string name="menu_home">Home</string>
+
+    <string name="post_like_label">%1d likes</string>
 </resources>
+

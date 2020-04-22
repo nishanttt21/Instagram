@@ -5,6 +5,8 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.example.instagram.InstagramApp
 import com.example.instagram.di.component.ActivityComponent
@@ -12,13 +14,20 @@ import com.example.instagram.di.component.DaggerActivityComponent
 import com.example.instagram.di.module.ActivityModule
 import javax.inject.Inject
 
-abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
+abstract class BaseActivity<DB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
+
     @Inject
     lateinit var viewModel: VM
+
+    protected lateinit var binding: DB
+
+    @LayoutRes
+    protected abstract fun provideLayoutId(): Int
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies(buildActivityComponent())
         super.onCreate(savedInstanceState)
-        setContentView(provideLayoutId())
+        binding = DataBindingUtil.setContentView(this, provideLayoutId())
         viewModel.onCreate()
         setupObservers()
         setupView(savedInstanceState)
@@ -39,13 +48,10 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
             .activityModule(ActivityModule(this))
             .build()
 
-    fun showMessage(message: String) =
+    protected fun showMessage(message: String) =
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
 
-    fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
-
-    @LayoutRes
-    protected abstract fun provideLayoutId(): Int
+    protected fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
 
     protected abstract fun setupView(savedInstanceState: Bundle?)
 

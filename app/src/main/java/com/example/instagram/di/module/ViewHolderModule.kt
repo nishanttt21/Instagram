@@ -8,7 +8,7 @@ import dagger.Provides
 
 
 @Module
-class ViewHolderModule(private val viewHolder: BaseItemViewHolder<*, *>) {
+class ViewHolderModule(private val viewHolder: BaseItemViewHolder<*, *, *>) {
 
     @ViewHolderScope
     @Provides

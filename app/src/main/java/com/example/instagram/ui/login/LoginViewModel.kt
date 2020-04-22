@@ -22,9 +22,9 @@ class LoginViewModel(
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
     private val _validationList: MutableLiveData<List<Validator.Validation>> = MutableLiveData()
 
-    private val _launchDummy: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
-    val launchDummy: LiveData<Event<Map<String, String>>>
-        get() = _launchDummy
+    private val _launchMain: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
+    val launchMain: LiveData<Event<Map<String, String>>>
+        get() = _launchMain
     private val _emailField: MutableLiveData<String> = MutableLiveData()
     val emailField: LiveData<String>
         get() = _emailField
@@ -73,7 +73,7 @@ class LoginViewModel(
                             {
                                 userRepository.saveCurrentUser(it)
                                 _loggingIn.postValue(false)
-                                _launchDummy.postValue(Event(mapOf()))
+                                _launchMain.postValue(Event(mapOf()))
                             }, {
                                 handleNetworkError(it)
                                 _loggingIn.postValue(false)

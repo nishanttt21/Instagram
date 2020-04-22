@@ -1,13 +1,14 @@
 package com.example.instagram.ui.base
 
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewModel<T>>>(
-    parentLifecycler: Lifecycle,
+abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<out ViewDataBinding, T, out BaseItemViewModel<T>>>(
+    parentLifecycle: Lifecycle,
     private val dataList: ArrayList<T>
 ) :
     RecyclerView.Adapter<VH>() {
@@ -15,13 +16,13 @@ abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewM
     private var recyclerView: RecyclerView? = null
 
     init {
-        parentLifecycler.addObserver(object : LifecycleObserver {
+        parentLifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onParentDestroy() {
                 recyclerView?.run {
                     for (i in 0 until childCount) {
                         getChildAt(i)?.let {
-                            (getChildViewHolder(it) as BaseItemViewHolder<*, *>).run {
+                            (getChildViewHolder(it) as BaseItemViewHolder<*, *, *>).run {
                                 onDestroy()
                                 viewModel.onManualCleared()
                             }
@@ -33,20 +34,9 @@ abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewM
             @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
             fun onParentStop() {
                 recyclerView?.run {
-                    recyclerView?.run {
-                        if (layoutManager is LinearLayoutManager) {
-                            val first =
-                                (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                            val last =
-                                (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                            if (first in 0..last) {
-                                for (i in first..last) {
-
-                                    findViewHolderForAdapterPosition(i)?.let {
-                                        (it as BaseItemViewHolder<*, *>).onStart()
-                                    }
-                                }
-                            }
+                    for (i in 0 until childCount) {
+                        getChildAt(i)?.let {
+                            (getChildViewHolder(it) as BaseItemViewHolder<*, *, *>).onStop()
                         }
                     }
                 }
@@ -54,6 +44,20 @@ abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewM
 
             @OnLifecycleEvent(Lifecycle.Event.ON_START)
             fun onParentStart() {
+                recyclerView?.run {
+                    if (layoutManager is LinearLayoutManager) {
+                        val first =
+                            (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                        val last =
+                            (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                        if (first in 0..last)
+                            for (i in first..last) {
+                                findViewHolderForAdapterPosition(i)?.let {
+                                    (it as BaseItemViewHolder<*, *, *>).onStart()
+                                }
+                            }
+                    }
+                }
 
             }
         })
