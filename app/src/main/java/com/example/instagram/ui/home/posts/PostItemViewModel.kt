@@ -25,14 +25,6 @@ class PostItemViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val postRepository: PostRepository
 ) : BaseItemViewModel<Post>(schedulerProvider, compositeDisposable, networkHelper) {
-    //    private val user = userRepository.getCurrentUser()!!
-//    private val screenWidth = ScreenUtils.getScreenWidth()
-//    private val screenHeight = ScreenUtils.getScreenHeight()
-//    private val headers = mapOf(
-//        Pair(Networking.HEADER_API_KEY, Networking.API_KEY),
-//        Pair(Networking.HEADER_ACCESS_TOKEN, user.accessToken),
-//        Pair(Networking.HEADER_USER_ID, user.id)
-//    )
     companion object {
         const val TAG = "PostItemViewModel"
     }

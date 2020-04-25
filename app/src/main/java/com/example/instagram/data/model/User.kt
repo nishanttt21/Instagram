@@ -9,14 +9,17 @@ data class User(
     val id: String,
     @Expose
     @SerializedName("userName")
-    val name: String,
+    var name: String,
     @Expose
     @SerializedName("userEmail")
-    val email: String,
+    var email: String,
     @Expose
     @SerializedName("accessToken")
     val accessToken: String,
     @Expose
+    @SerializedName("tagline")
+    var tagline: String = "",
+    @Expose
     @SerializedName("profilePicUrl")
-    val profilePicUrl: String? = null
+    var profilePicUrl: String? = null
 )

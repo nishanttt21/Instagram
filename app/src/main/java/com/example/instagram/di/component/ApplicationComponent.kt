@@ -6,15 +6,17 @@ import android.content.SharedPreferences
 import com.example.instagram.InstagramApp
 import com.example.instagram.data.local.DatabaseService
 import com.example.instagram.data.remote.NetworkService
-import com.example.instagram.data.repository.PostRepository
-import com.example.instagram.data.repository.UserRepository
+import com.example.instagram.data.repository.*
 import com.example.instagram.di.ApplicationContext
+import com.example.instagram.di.TempDirectory
 import com.example.instagram.di.module.ApplicationModule
 import com.example.instagram.utils.network.NetworkHelper
 import com.example.instagram.utils.rx.SchedulerProvider
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
+import java.io.File
 import javax.inject.Singleton
+
 @Singleton
 @Component(modules = [ApplicationModule::class])
 interface ApplicationComponent {
@@ -56,6 +58,13 @@ interface ApplicationComponent {
      */
     fun getUserRepository(): UserRepository
     fun getPostRepository(): PostRepository
+    fun getPhotoRepository(): PhotoRepository
 
+    fun getUserRepositoryImpl(): UserRepositoryImpl
+    fun getPostRepositoryImpl(): PostRepositoryImpl
+    fun getPhotoRepositoryImpl(): PhotoRepositoryImpl
+
+    @TempDirectory
+    fun getTempDirectory(): File
     fun getSchedulerProvider(): SchedulerProvider
 }

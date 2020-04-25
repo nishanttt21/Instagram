@@ -21,14 +21,14 @@ object Validator {
             email.isNullOrEmpty() -> add(
                 Validation(
                     Validation.Field.EMAIL,
-                    Resource.error(R.string.email_cant_empty)
+                    Resource.error(R.string.email_field_empty)
                 )
             )
             EMAIL_ADDRESS.matcher(email).matches().not() ->
                 add(
                     Validation(
                         Validation.Field.EMAIL,
-                        Resource.error(R.string.not_valid_email)
+                        Resource.error(R.string.email_field_invalid)
                     )
                 )
             else -> add(Validation(Validation.Field.EMAIL, Resource.success()))
@@ -37,14 +37,14 @@ object Validator {
             password.isNullOrEmpty() -> add(
                 Validation(
                     Validation.Field.PASSWORD,
-                    Resource.error(R.string.password_cant_empty)
+                    Resource.error(R.string.password_field_empty)
                 )
             )
             password.length < MIN_PASSWORD_LENGTH ->
                 add(
                     Validation(
                         Validation.Field.PASSWORD,
-                        Resource.error(R.string.not_valid_password)
+                        Resource.error(R.string.password_field_small_length)
                     )
                 )
             else -> add(Validation(Validation.Field.PASSWORD, Resource.success()))
@@ -65,7 +65,7 @@ object Validator {
                 add(
                     Validation(
                         Validation.Field.NAME,
-                        Resource.error(R.string.not_valid_name)
+                        Resource.error(R.string.name_field_invalid)
                     )
                 )
 
@@ -75,14 +75,14 @@ object Validator {
             email.isNullOrEmpty() -> add(
                 Validation(
                     Validation.Field.EMAIL,
-                    Resource.error(R.string.email_cant_empty)
+                    Resource.error(R.string.email_field_empty)
                 )
             )
             EMAIL_ADDRESS.matcher(email).matches().not() ->
                 add(
                     Validation(
                         Validation.Field.EMAIL,
-                        Resource.error(R.string.not_valid_email)
+                        Resource.error(R.string.email_field_invalid)
                     )
                 )
             else -> add(Validation(Validation.Field.EMAIL, Resource.success()))
@@ -91,14 +91,14 @@ object Validator {
             password.isNullOrEmpty() -> add(
                 Validation(
                     Validation.Field.PASSWORD,
-                    Resource.error(R.string.password_cant_empty)
+                    Resource.error(R.string.password_field_empty)
                 )
             )
             password.length < MIN_PASSWORD_LENGTH ->
                 add(
                     Validation(
                         Validation.Field.PASSWORD,
-                        Resource.error(R.string.not_valid_password)
+                        Resource.error(R.string.password_field_small_length)
                     )
                 )
             else -> add(Validation(Validation.Field.PASSWORD, Resource.success()))

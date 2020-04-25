@@ -4,23 +4,28 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.data.repository.DummyRepository
+import com.example.instagram.data.repository.PhotoRepository
 import com.example.instagram.data.repository.PostRepository
 import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.di.ActivityContext
+import com.example.instagram.di.TempDirectory
 import com.example.instagram.ui.base.BaseFragment
 import com.example.instagram.ui.dummies.DummiesAdapter
 import com.example.instagram.ui.dummies.DummiesViewModel
 import com.example.instagram.ui.home.HomeViewModel
 import com.example.instagram.ui.home.posts.PostAdapter
+import com.example.instagram.ui.main.MainSharedViewModel
 import com.example.instagram.ui.photo.PhotoViewModel
 import com.example.instagram.ui.profile.ProfileViewModel
 import com.example.instagram.utils.ViewModelProviderFactory
 import com.example.instagram.utils.network.NetworkHelper
 import com.example.instagram.utils.rx.SchedulerProvider
+import com.mindorks.paracamera.Camera
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.processors.PublishProcessor
+import java.io.File
 
 
 @Module
@@ -32,7 +37,6 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
 
     @Provides
     fun providePostAdapter(): PostAdapter = PostAdapter(fragment.lifecycle, ArrayList())
-
     @Provides
     fun provideHomeViewModel(
         schedulerProvider: SchedulerProvider,
@@ -55,6 +59,17 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
             )
         }
     ).get(HomeViewModel::class.java)
+
+    @Provides
+    fun provideCamera(): Camera = Camera.Builder()
+        .resetToCorrectOrientation(true)
+        .setTakePhotoRequestCode(1)
+        .setDirectory("temp")
+        .setName("camera_temp_image")
+        .setImageFormat(Camera.IMAGE_JPEG)
+        .setCompression(75)
+        .setImageHeight(500)
+        .build(fragment)
 
     @Provides
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(fragment.context)
@@ -81,14 +96,21 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
     fun providePhotoViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository,
+        photoRepository: PhotoRepository, postRepository: PostRepository,
+        @TempDirectory directory: File
     ): PhotoViewModel =
         ViewModelProvider(fragment,
             ViewModelProviderFactory(PhotoViewModel::class) {
                 PhotoViewModel(
                     schedulerProvider,
                     compositeDisposable,
-                    networkHelper
+                    networkHelper,
+                    directory,
+                    userRepository,
+                    postRepository,
+                    photoRepository
                 )
             }
         ).get(PhotoViewModel::class.java)
@@ -97,17 +119,36 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
     fun provideProfileViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository
     ): ProfileViewModel =
         ViewModelProvider(fragment,
             ViewModelProviderFactory(ProfileViewModel::class) {
                 ProfileViewModel(
                     schedulerProvider,
                     compositeDisposable,
-                    networkHelper
+                    networkHelper,
+                    userRepository
                 )
             }
         ).get(ProfileViewModel::class.java)
+
+    @Provides
+    fun provideMainSharedViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper
+    ): MainSharedViewModel = ViewModelProvider(
+        fragment.requireActivity(), ViewModelProviderFactory(
+            MainSharedViewModel::class
+        ) {
+            MainSharedViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper
+            )
+        }
+    ).get(MainSharedViewModel::class.java)
 
     @Provides
     fun provideDummiesAdapter() = DummiesAdapter(fragment.lifecycle, ArrayList())

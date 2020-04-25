@@ -25,7 +25,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : BaseViewModel> : Fragment
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
 
-    protected abstract fun setupView(view: View)
+    protected abstract fun setupView()
 
     protected abstract fun injectDependencies(fragmentComponent: FragmentComponent)
 
@@ -47,7 +47,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : BaseViewModel> : Fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView(view)
+        setupView()
     }
 
     protected open fun setupObservers() {

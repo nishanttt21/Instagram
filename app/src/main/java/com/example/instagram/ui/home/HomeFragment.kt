@@ -10,6 +10,7 @@ import com.example.instagram.databinding.FragmentHomeBinding
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
 import com.example.instagram.ui.home.posts.PostAdapter
+import com.example.instagram.ui.main.MainSharedViewModel
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -27,6 +28,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     }
 
     @Inject
+    lateinit var sharedViewModel: MainSharedViewModel
+
+    @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
 
     @Inject
@@ -34,7 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun provideLayoutId(): Int = R.layout.fragment_home
 
-    override fun setupView(view: View) {
+    override fun setupView() {
         binding.rvPosts.apply {
             layoutManager = linearLayoutManager
             adapter = postAdapter
@@ -56,7 +60,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             it.data?.run { postAdapter.appendData(this) }
         })
         viewModel.loading.observe(this, Observer {
-            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+            binding.progressBar.visibility = if (it == true) View.VISIBLE else View.GONE
+        })
+        sharedViewModel.newPost.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                viewModel.onNewPost(this)
+            }
+        })
+        viewModel.refreshPosts.observe(this, Observer {
+            it.data?.run {
+                postAdapter.updateList(this)
+                binding.rvPosts.scrollToPosition(0)
+            }
         })
     }
 

@@ -37,6 +37,7 @@
             app:labelVisibilityMode="unlabeled"
             app:elevation="8dp"
             app:itemIconTint="@color/colorBlack"
+            style="@style/Widget.MaterialComponents.BottomNavigationView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/menu_bottom_navigation" />
     </androidx.constraintlayout.widget.ConstraintLayout>

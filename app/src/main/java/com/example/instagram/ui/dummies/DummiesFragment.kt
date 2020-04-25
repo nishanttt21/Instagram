@@ -1,7 +1,6 @@
 package com.example.instagram.ui.dummies
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
@@ -42,7 +41,7 @@ class DummiesFragment : BaseFragment<FragmentDummiesBinding, DummiesViewModel>()
         })
     }
 
-    override fun setupView(view: View) {
+    override fun setupView() {
         binding.rvDummy.apply {
             layoutManager = linearLayoutManager
             adapter = dummiesAdapter

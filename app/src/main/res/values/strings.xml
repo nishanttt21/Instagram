@@ -7,27 +7,48 @@
     <string name="network_server_not_available">Our services are under maintenance, please retry after some time
     </string>
     <string name="server_connection_error">Not able to connect, please retry again</string>
+    <string name="permission_denied">Permission Denied</string>
     <string name="network_login_again">Please log in again</string>
+
+    <!--login-->
+    <string name="email_field_hint">Enter your email</string>
+    <string name="password_field_hint">Enter your password</string>
+    <string name="email_field_empty">Email can\'t be empty</string>
+    <string name="password_field_empty">Password can\'t be empty</string>
+    <string name="email_field_invalid">Not a valid email</string>
+    <string name="password_field_small_length">Password less than 6 digits</string>
     <string name="login_button_text">Login</string>
-    <string name="enter_password_hint">Enter Password</string>
-    <string name="enter_email_id_hint">Enter Email ID</string>
-    <string name="email_cant_empty">Email Can\'t be Empty</string>
-    <string name="password_cant_empty">Password Can\'t be Empty</string>
-    <string name="not_valid_email">Not a Valid Email</string>
-    <string name="not_valid_password">Password less than 6 digit</string>
-    <string name="not_valid_name">Name is too short</string>
+    <!--Sign up-->
+    <string name="name_field_invalid">Name is too short</string>
     <string name="instagram_logo">Instagram Logo</string>
     <string name="sign_up_with_email">Sign Up with Email</string>
     <string name="enter_full_name_id_hint">Enter your full name</string>
     <string name="signup_button_text">Sign up</string>
     <string name="choose_password_hint">Choose your password</string>
     <string name="login_with_email">Login with Email</string>
-    <string name="or_text">OR</string>
     <string name="name_cant_empty">Name Can\'t be Empty</string>
-    <string name="menu_profile">Profile</string>
-    <string name="menu_add_photos">Add Photos</string>
+    <string name="or">OR</string>
+    <string name="full_name_hint">Enter full name</string>
+    <string name="sign_up_text">Sign up</string>
+    <!--menu-->
     <string name="menu_home">Home</string>
+    <string name="menu_add_photos">Add Photos</string>
+    <string name="menu_profile">Profile</string>
 
-    <string name="post_like_label">%1d likes</string>
+    <!--posts-->
+    <string name="post_like_label">%1d Likes</string>
+    <!-- Edit Profile-->
+    <string name="logout">Logout</string>
+    <string name="edit_profile_label">Edit Profile</string>
+    <string name="add_image">Add Image</string>
+    <string name="change_photo">Change Photo</string>
+    <string name="name">Name</string>
+    <string name="bio">Bio</string>
+    <string name="private_information">Private Information</string>
+    <string name="email_address">Email Address</string>
+
+    <!--photo-->
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="try_again">Please try again</string>
 </resources>
-

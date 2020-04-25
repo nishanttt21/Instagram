@@ -10,10 +10,13 @@ import com.example.instagram.ui.base.BaseActivity
 import com.example.instagram.ui.home.HomeFragment
 import com.example.instagram.ui.photo.PhotoFragment
 import com.example.instagram.ui.profile.ProfileFragment
+import javax.inject.Inject
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     private var activeFragment: Fragment? = null
 
+    @Inject
+    lateinit var sharedViewModel: MainSharedViewModel
     override fun provideLayoutId(): Int = R.layout.activity_main
 
     override fun setupView(savedInstanceState: Bundle?) {
@@ -53,6 +56,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         })
         viewModel.profileNavigation.observe(this, Observer {
             it.getIfNotHandled()?.run { showProfile() }
+        })
+        sharedViewModel.homeRedirection.observe(this, Observer {
+            it?.getIfNotHandled()?.run {
+                if (this) binding.bottomNavigation.selectedItemId = R.id.itemHome
+            }
         })
     }
 

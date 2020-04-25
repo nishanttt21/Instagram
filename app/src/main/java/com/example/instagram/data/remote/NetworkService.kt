@@ -1,11 +1,9 @@
 package com.example.instagram.data.remote
 
-import com.example.instagram.data.remote.request.DummyRequest
-import com.example.instagram.data.remote.request.LoginRequest
-import com.example.instagram.data.remote.request.PostLikeModifyRequest
-import com.example.instagram.data.remote.request.SignUpRequest
+import com.example.instagram.data.remote.request.*
 import com.example.instagram.data.remote.response.*
 import io.reactivex.Single
+import okhttp3.MultipartBody
 import retrofit2.http.*
 import javax.inject.Singleton
 
@@ -56,6 +54,44 @@ interface NetworkService {
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY // default value set when Networking create is called
     ): Single<GeneralResponse>
 
+    @DELETE(Endpoints.SIGN_OUT)
+    fun doSignOutCall(
+        @Header(Networking.HEADER_USER_ID) userId: String, // pass using UserRepository
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using UserRepository
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<GeneralResponse>
+
+    @GET(Endpoints.ME)
+    fun fetchMyInfo(
+        @Header(Networking.HEADER_USER_ID) userId: String, // pass using UserRepository
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using UserRepository
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<MyResponse>
+
+    @PUT(Endpoints.ME)
+    fun updateMyInfo(
+        @Body request: UpdateRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String, // pass using UserRepository
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using UserRepository
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<GeneralResponse>
+
+    @Multipart
+    @POST(Endpoints.UPLOAD_IMAGE)
+    fun doUploadImage(
+        @Part image: MultipartBody.Part,
+        @Header(Networking.HEADER_USER_ID) userId: String, // pass using UserRepository
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using UserRepository
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<ImageResponse>
+
+    @POST(Endpoints.CREATE_POST)
+    fun doPostCreate(
+        @Body request: PostCreationRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String, // pass using UserRepository
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using UserRepository
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY // default value set when Networking create is called
+    ): Single<PostCreationResponse>
     /*
      * Example to add other headers
      *

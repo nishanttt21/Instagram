@@ -9,9 +9,12 @@ import com.example.instagram.InstagramApp
 import com.example.instagram.data.local.DatabaseService
 import com.example.instagram.data.remote.NetworkService
 import com.example.instagram.data.remote.Networking
+import com.example.instagram.data.repository.*
 import com.example.instagram.di.ApplicationContext
 import com.example.instagram.di.DatabaseInfo
 import com.example.instagram.di.NetworkInfo
+import com.example.instagram.di.TempDirectory
+import com.example.instagram.utils.common.FileUtils
 import com.example.instagram.utils.network.NetworkHelper
 import com.example.instagram.utils.rx.RxSchedulerProvider
 import com.example.instagram.utils.rx.SchedulerProvider
@@ -40,6 +43,11 @@ class ApplicationModule(private val app:InstagramApp) {
 
     @Provides
     fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
+
+    @Provides
+    @Singleton
+    @TempDirectory
+    fun provideTempDirectory() = FileUtils.getDirectory(app, "temp")
 
     @Provides
     fun provideDbVersion(): Int = 1
@@ -81,6 +89,19 @@ class ApplicationModule(private val app:InstagramApp) {
             app.cacheDir,
             10 * 1024 * 1024 // 10MB
         )
+
+    @Singleton
+    @Provides
+    fun provideUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository =
+        userRepositoryImpl
+
+    @Provides
+    fun providePostRepository(postRepositoryImpl: PostRepositoryImpl): PostRepository =
+        postRepositoryImpl
+
+    @Provides
+    fun providePhotoRepository(photoRepositoryImpl: PhotoRepositoryImpl): PhotoRepository =
+        photoRepositoryImpl
 
     @Singleton
     @Provides

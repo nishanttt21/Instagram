@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,17 +11,115 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_message"
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_person"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@id/guidelineTop" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello From PROFILE Fragment"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@id/ivProfilePic"
+            app:layout_constraintStart_toStartOf="@id/ivProfilePic"
+            app:layout_constraintTop_toBottomOf="@id/ivProfilePic"
+            tools:text="Deepak Dawade" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvUserBio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:singleLine="false"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvUserName"
+            tools:text="I am passionate  Android Developer and I am aim to reach high and Touch the sky." />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvPostCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="10\nPosts"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/btnEditProfile"
+            app:layout_constraintEnd_toStartOf="@+id/tvFollowersCount"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
+            app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvFollowersCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100\nFollowers"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvPostCount"
+            app:layout_constraintEnd_toStartOf="@+id/tvFollowingCount"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tvPostCount" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvFollowingCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50\nFollowing"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvFollowersCount"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tvFollowersCount" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEditProfile"
+            style="@style/AppTheme.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Edit Profile"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
+            app:layout_constraintEnd_toEndOf="@id/tvFollowingCount"
+            app:layout_constraintStart_toStartOf="@id/tvPostCount" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="16dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -120,7 +120,11 @@
         <item name="android:fontFamily">@font/roboto_bold</item>
     </style>
 
-    <style name="AppTheme.Tab" parent="TextAppearance.MaterialComponents.Tab" />
+    <style name="AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="strokeColor">@color/colorGrey</item>
+    </style>
+    <!--    <style name="AppTheme.Tab" parent="TextAppearance.MaterialComponents.Tab" />-->
 
     <style name="AppTheme.Chip" parent="TextAppearance.MaterialComponents.Chip" />
 

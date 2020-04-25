@@ -8,7 +8,9 @@ import com.example.instagram.di.ActivityContext
 import com.example.instagram.ui.base.BaseActivity
 import com.example.instagram.ui.dummy.DummyViewModel
 import com.example.instagram.ui.login.LoginViewModel
+import com.example.instagram.ui.main.MainSharedViewModel
 import com.example.instagram.ui.main.MainViewModel
+import com.example.instagram.ui.profile.editprofile.EditProfileViewModel
 import com.example.instagram.ui.signup.SignUpViewModel
 import com.example.instagram.ui.splash.SplashViewModel
 import com.example.instagram.utils.ViewModelProviderFactory
@@ -31,15 +33,32 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
         networkHelper: NetworkHelper
     ): MainViewModel = ViewModelProvider(
         activity, ViewModelProviderFactory(
-        MainViewModel::class
-    ) {
-        MainViewModel(
-            schedulerProvider,
-            compositeDisposable,
-            networkHelper
-        )
-    }
+            MainViewModel::class
+        ) {
+            MainViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper
+            )
+        }
     ).get(MainViewModel::class.java)
+
+    @Provides
+    fun provideMainSharedViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper
+    ): MainSharedViewModel = ViewModelProvider(
+        activity, ViewModelProviderFactory(
+            MainSharedViewModel::class
+        ) {
+            MainSharedViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper
+            )
+        }
+    ).get(MainSharedViewModel::class.java)
 //    @Provides
 //    fun provideMainViewModule(networkService: NetworkService,dataBaseService: DataBaseService):
 //            MainViewModel= MainViewModel(networkService,dataBaseService)
@@ -88,4 +107,15 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
         activity, ViewModelProviderFactory(SignUpViewModel::class) {
             SignUpViewModel(schedulerProvider, compositeDisposable, networkHelper, repository)
         }).get(SignUpViewModel::class.java)
+
+    @Provides
+    fun provideEditProfileViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        repository: UserRepository
+    ): EditProfileViewModel = ViewModelProvider(
+        activity, ViewModelProviderFactory(EditProfileViewModel::class) {
+            EditProfileViewModel(schedulerProvider, compositeDisposable, networkHelper, repository)
+        }).get(EditProfileViewModel::class.java)
 }
