@@ -1,26 +1,23 @@
-package com.example.instagram.ui.login
+package com.example.instagram.ui.loginsignup.login
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.instagram.R
-import com.example.instagram.databinding.ActivityLoginBinding
-import com.example.instagram.di.component.ActivityComponent
-import com.example.instagram.ui.base.BaseActivity
+import com.example.instagram.databinding.FragmentLoginBinding
+import com.example.instagram.di.component.FragmentComponent
+import com.example.instagram.ui.base.BaseFragment
+import com.example.instagram.ui.loginsignup.login.signup.login.LoginViewModel
 import com.example.instagram.ui.main.MainActivity
-import com.example.instagram.ui.signup.SignUpActivity
 import com.example.instagram.utils.common.Status
 
-class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
+class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
-    override fun provideLayoutId(): Int = R.layout.activity_login
+    override fun provideLayoutId(): Int = R.layout.fragment_login
 
-    override fun injectDependencies(activityComponent: ActivityComponent):
-            Unit = activityComponent.inject(this)
-
-    override fun setupView(savedInstanceState: Bundle?) {
+    override fun setupView() {
         binding.etEmail.doOnTextChanged { text, _, _, _ ->
             viewModel.onEmailChange(text.toString())
         }
@@ -31,7 +28,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             viewModel.doLogin()
         }
         binding.signUpWithEmailBtn.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
+            findNavController().navigate(R.id.signUpFragment)
         }
     }
 
@@ -39,8 +36,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
         super.setupObservers()
         viewModel.launchMain.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                startActivity(Intent(applicationContext, MainActivity::class.java))
-                finish()
+                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                requireActivity().finish()
             }
         })
         viewModel.emailField.observe(this, Observer {
@@ -71,7 +68,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
     }
 
     companion object {
-        private const val TAG = "LoginActivity"
+        private const val TAG = "LoginFragment"
     }
+
+    override fun injectDependencies(fragmentComponent: FragmentComponent) =
+        fragmentComponent.inject(this)
 
 }
