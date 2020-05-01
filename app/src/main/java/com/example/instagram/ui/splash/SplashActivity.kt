@@ -7,7 +7,7 @@ import com.example.instagram.R
 import com.example.instagram.databinding.ActivitySplashBinding
 import com.example.instagram.di.component.ActivityComponent
 import com.example.instagram.ui.base.BaseActivity
-import com.example.instagram.ui.login.LoginActivity
+import com.example.instagram.ui.loginsignup.LoginSignupActivity
 import com.example.instagram.ui.main.MainActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
@@ -34,7 +34,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
         })
         viewModel.launchLogin.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                startActivity(Intent(applicationContext, LoginActivity::class.java))
+                startActivity(Intent(applicationContext, LoginSignupActivity::class.java))
             }
         })
     }

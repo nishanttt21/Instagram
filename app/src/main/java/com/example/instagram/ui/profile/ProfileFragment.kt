@@ -8,7 +8,7 @@ import com.example.instagram.R
 import com.example.instagram.databinding.FragmentProfileBinding
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
-import com.example.instagram.ui.login.LoginActivity
+import com.example.instagram.ui.loginsignup.LoginSignupActivity
 import com.example.instagram.ui.profile.editprofile.EditProfileActivity
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
@@ -45,7 +45,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         super.setupObservers()
         viewModel.goToLogin.observe(this, Observer {
             if (it == true) {
-                startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                startActivity(Intent(requireActivity(), LoginSignupActivity::class.java))
                 requireActivity().finish()
             }
 

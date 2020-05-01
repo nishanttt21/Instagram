@@ -40,10 +40,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name=".ui.loginsignup.LoginSignupActivity" />
         <activity android:name=".ui.dummy.DummyActivity" />
         <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.signup.SignUpActivity" />
         <activity android:name=".ui.profile.editprofile.EditProfileActivity" />
     </application>
 

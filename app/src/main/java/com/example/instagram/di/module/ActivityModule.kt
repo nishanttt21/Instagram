@@ -7,11 +7,10 @@ import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.di.ActivityContext
 import com.example.instagram.ui.base.BaseActivity
 import com.example.instagram.ui.dummy.DummyViewModel
-import com.example.instagram.ui.login.LoginViewModel
+import com.example.instagram.ui.loginsignup.LoginSignupViewModel
 import com.example.instagram.ui.main.MainSharedViewModel
 import com.example.instagram.ui.main.MainViewModel
 import com.example.instagram.ui.profile.editprofile.EditProfileViewModel
-import com.example.instagram.ui.signup.SignUpViewModel
 import com.example.instagram.ui.splash.SplashViewModel
 import com.example.instagram.utils.ViewModelProviderFactory
 import com.example.instagram.utils.network.NetworkHelper
@@ -87,26 +86,15 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
         }).get(DummyViewModel::class.java)
 
     @Provides
-    fun provideLoginViewModel(
+    fun provideLoginSignupViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        repository: UserRepository
-    ): LoginViewModel = ViewModelProvider(
-        activity, ViewModelProviderFactory(LoginViewModel::class) {
-            LoginViewModel(schedulerProvider, compositeDisposable, networkHelper, repository)
-        }).get(LoginViewModel::class.java)
+        networkHelper: NetworkHelper
+    ): LoginSignupViewModel = ViewModelProvider(
+        activity, ViewModelProviderFactory(LoginSignupViewModel::class) {
+            LoginSignupViewModel(schedulerProvider, compositeDisposable, networkHelper)
+        }).get(LoginSignupViewModel::class.java)
 
-    @Provides
-    fun provideSignUpViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        repository: UserRepository
-    ): SignUpViewModel = ViewModelProvider(
-        activity, ViewModelProviderFactory(SignUpViewModel::class) {
-            SignUpViewModel(schedulerProvider, compositeDisposable, networkHelper, repository)
-        }).get(SignUpViewModel::class.java)
 
     @Provides
     fun provideEditProfileViewModel(

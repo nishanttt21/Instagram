@@ -1,4 +1,4 @@
-package com.example.instagram.ui.signup
+package com.example.instagram.ui.loginsignup.login.signup.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +14,7 @@ import com.example.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class SignUpViewModel(
+class LoginViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
@@ -25,30 +25,26 @@ class SignUpViewModel(
     private val _launchMain: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val launchMain: LiveData<Event<Map<String, String>>>
         get() = _launchMain
-
     private val _emailField: MutableLiveData<String> = MutableLiveData()
     val emailField: LiveData<String>
         get() = _emailField
-
     private val _passwordField: MutableLiveData<String> = MutableLiveData()
     val passwordField: LiveData<String>
         get() = _passwordField
 
-    private val _nameField: MutableLiveData<String> = MutableLiveData()
-    val nameField: LiveData<String>
-        get() = _nameField
-
-    private val _signingIn: MutableLiveData<Boolean> = MutableLiveData()
-    val signingIn: LiveData<Boolean>
-        get() = _signingIn
+    private val _loggingIn: MutableLiveData<Boolean> = MutableLiveData()
+    val loggingIn: LiveData<Boolean>
+        get() = _loggingIn
 
     val emailValidation: LiveData<Resource<Int>> =
         filterValidation(Validator.Validation.Field.EMAIL)
 
     val passwordValidation: LiveData<Resource<Int>> =
         filterValidation(Validator.Validation.Field.PASSWORD)
-    val nameValidation: LiveData<Resource<Int>> =
-        filterValidation(Validator.Validation.Field.NAME)
+
+    override fun onCreate() {
+//        TODO("Not yet implemented")
+    }
 
     private fun filterValidation(field: Validator.Validation.Field):
             LiveData<Resource<Int>> = Transformations.map(_validationList) { validations ->
@@ -60,34 +56,27 @@ class SignUpViewModel(
 
     fun onPasswordChange(password: String) = _passwordField.postValue(password)
 
-    fun onNameChange(name: String) = _nameField.postValue(name)
+    fun doLogin() {
 
-
-    override fun onCreate() {
-//        TODO("Not yet implemented")
-    }
-
-    fun doSignUp() {
         val email = _emailField.value
         val password = _passwordField.value
-        val name = _nameField.value
-        val validations = Validator.validateSignUpField(name, email, password)
+        val validations = Validator.validateLoginField(email, password)
         _validationList.postValue(validations)
-        if (validations.isNotEmpty() && email != null && password != null && name != null) {
+        if (validations.isNotEmpty() && email != null && password != null) {
             val successValidation = validations.filter { it.resource.status == Status.SUCCESS }
             if (successValidation.size == validations.size && checkInternetConnectionWithMessage()) {
-                _signingIn.value = true
+                _loggingIn.value = true
                 compositeDisposable.addAll(
-                    userRepository.doSignUpCall(name, email, password)
+                    userRepository.doLoginCall(email, password)
                         .subscribeOn(Schedulers.io())
                         .subscribe(
                             {
                                 userRepository.saveCurrentUser(it)
-                                _signingIn.postValue(false)
+                                _loggingIn.postValue(false)
                                 _launchMain.postValue(Event(mapOf()))
                             }, {
                                 handleNetworkError(it)
-                                _signingIn.postValue(false)
+                                _loggingIn.postValue(false)
                             }
                         )
                 )

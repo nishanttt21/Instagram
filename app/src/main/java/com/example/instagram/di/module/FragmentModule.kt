@@ -14,6 +14,8 @@ import com.example.instagram.ui.dummies.DummiesAdapter
 import com.example.instagram.ui.dummies.DummiesViewModel
 import com.example.instagram.ui.home.HomeViewModel
 import com.example.instagram.ui.home.posts.PostAdapter
+import com.example.instagram.ui.loginsignup.login.signup.SignUpViewModel
+import com.example.instagram.ui.loginsignup.login.signup.login.LoginViewModel
 import com.example.instagram.ui.main.MainSharedViewModel
 import com.example.instagram.ui.photo.PhotoViewModel
 import com.example.instagram.ui.profile.ProfileViewModel
@@ -59,6 +61,28 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
             )
         }
     ).get(HomeViewModel::class.java)
+
+    @Provides
+    fun provideLoginViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        repository: UserRepository
+    ): LoginViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(LoginViewModel::class) {
+            LoginViewModel(schedulerProvider, compositeDisposable, networkHelper, repository)
+        }).get(LoginViewModel::class.java)
+
+    @Provides
+    fun provideSignUpViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        repository: UserRepository
+    ): SignUpViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(SignUpViewModel::class) {
+            SignUpViewModel(schedulerProvider, compositeDisposable, networkHelper, repository)
+        }).get(SignUpViewModel::class.java)
 
     @Provides
     fun provideCamera(): Camera = Camera.Builder()
