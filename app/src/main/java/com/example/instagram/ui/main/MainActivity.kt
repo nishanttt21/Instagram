@@ -2,7 +2,9 @@ package com.example.instagram.ui.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.instagram.R
 import com.example.instagram.databinding.ActivityMainBinding
 import com.example.instagram.di.component.ActivityComponent
@@ -18,22 +20,24 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     @Inject
     lateinit var sharedViewModel: MainSharedViewModel
     override fun provideLayoutId(): Int = R.layout.activity_main
-
+    private lateinit var navController: NavController
     override fun setupView(savedInstanceState: Bundle?) {
-
+        navController = this.findNavController(R.id.mainNavHostFragment)
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
+/*
         binding.bottomNavigation.run {
             itemIconTintList = null
             setOnNavigationItemSelectedListener {
                 when (it.itemId) {
-                    R.id.itemHome -> {
+                    R.id.homeFragment -> {
                         viewModel.onHomeSelected()
                         true
                     }
-                    R.id.itemAddPhoto -> {
+                    R.id.photoFragment -> {
                         viewModel.onPhotoSelected()
                         true
                     }
-                    R.id.itemProfile -> {
+                    R.id.profileFragment -> {
                         viewModel.onProfileSelected()
                         true
                     }
@@ -41,11 +45,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                 }
             }
         }
+*/
     }
 
     override fun injectDependencies(activityComponent: ActivityComponent):
             Unit = activityComponent.inject(this)
 
+/*
     override fun setupObservers() {
         super.setupObservers()
         viewModel.homeNavigation.observe(this, Observer {
@@ -59,10 +65,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         })
         sharedViewModel.homeRedirection.observe(this, Observer {
             it?.getIfNotHandled()?.run {
-                if (this) binding.bottomNavigation.selectedItemId = R.id.itemHome
+                if (this) binding.bottomNavigation.selectedItemId = R.id.homeFragment
             }
         })
     }
+*/
 
     private fun showAddPhoto() {
         if (activeFragment is PhotoFragment) return
@@ -70,7 +77,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         var fragment = supportFragmentManager.findFragmentByTag(PhotoFragment.TAG)
         if (fragment == null) {
             fragment = PhotoFragment.newInstance()
-            fragmentTransaction.add(binding.containerFragment.id, fragment, PhotoFragment.TAG)
+            fragmentTransaction.add(R.id.mainNavHostFragment, fragment, PhotoFragment.TAG)
         } else fragmentTransaction.show(fragment)
         if (activeFragment != null)
             fragmentTransaction.hide(activeFragment as Fragment)
@@ -84,7 +91,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         var fragment = supportFragmentManager.findFragmentByTag(ProfileFragment.TAG)
         if (fragment == null) {
             fragment = ProfileFragment.newInstance()
-            fragmentTransaction.add(binding.containerFragment.id, fragment, ProfileFragment.TAG)
+            fragmentTransaction.add(R.id.mainNavHostFragment, fragment, ProfileFragment.TAG)
         } else fragmentTransaction.show(fragment)
         if (activeFragment != null)
             fragmentTransaction.hide(activeFragment as Fragment)
@@ -98,7 +105,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         var fragment = supportFragmentManager.findFragmentByTag(HomeFragment.TAG)
         if (fragment == null) {
             fragment = HomeFragment.newInstance()
-            fragmentTransaction.add(binding.containerFragment.id, fragment, HomeFragment.TAG)
+            fragmentTransaction.add(R.id.mainNavHostFragment, fragment, HomeFragment.TAG)
         } else fragmentTransaction.show(fragment)
         if (activeFragment != null)
             fragmentTransaction.hide(activeFragment as Fragment)

@@ -12,11 +12,15 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity">
 
-        <FrameLayout
-            android:id="@+id/containerFragment"
+        <fragment
+            android:id="@+id/mainNavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:defaultNavHost="true"
             android:clipToPadding="false"
+            app:navGraph="@navigation/navigation_main_graph"
+            tools:layout="@layout/fragment_home"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -23,14 +23,11 @@ class LoginViewModel(
     private val _validationList: MutableLiveData<List<Validator.Validation>> = MutableLiveData()
 
     private val _launchMain: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
-    val launchMain: LiveData<Event<Map<String, String>>>
-        get() = _launchMain
+    val launchMain: LiveData<Event<Map<String, String>>> get() = _launchMain
     private val _emailField: MutableLiveData<String> = MutableLiveData()
-    val emailField: LiveData<String>
-        get() = _emailField
+    val emailField: LiveData<String> get() = _emailField
     private val _passwordField: MutableLiveData<String> = MutableLiveData()
-    val passwordField: LiveData<String>
-        get() = _passwordField
+    val passwordField: LiveData<String> get() = _passwordField
 
     private val _loggingIn: MutableLiveData<Boolean> = MutableLiveData()
     val loggingIn: LiveData<Boolean>
