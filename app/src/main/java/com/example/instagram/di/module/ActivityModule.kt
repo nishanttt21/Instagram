@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.data.repository.DummyRepository
 import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.di.ActivityContext
+import com.example.instagram.di.TempDirectory
 import com.example.instagram.ui.base.BaseActivity
 import com.example.instagram.ui.dummy.DummyViewModel
 import com.example.instagram.ui.loginsignup.LoginSignupViewModel
@@ -18,6 +19,7 @@ import com.example.instagram.utils.rx.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import java.io.File
 
 @Module
 class ActivityModule(private val activity: BaseActivity<*, *>) {
@@ -101,9 +103,16 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
         networkHelper: NetworkHelper,
-        repository: UserRepository
+        repository: UserRepository,
+        @TempDirectory directory: File
     ): EditProfileViewModel = ViewModelProvider(
         activity, ViewModelProviderFactory(EditProfileViewModel::class) {
-            EditProfileViewModel(schedulerProvider, compositeDisposable, networkHelper, repository)
+            EditProfileViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                repository,
+                directory
+            )
         }).get(EditProfileViewModel::class.java)
 }

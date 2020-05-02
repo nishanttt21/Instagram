@@ -2,6 +2,7 @@ package com.example.instagram.data.repository
 
 import com.example.instagram.data.local.DatabaseService
 import com.example.instagram.data.local.prefs.UserPreferences
+import com.example.instagram.data.model.Me
 import com.example.instagram.data.model.User
 import com.example.instagram.data.remote.NetworkService
 import com.example.instagram.data.remote.request.LoginRequest
@@ -49,26 +50,29 @@ class UserRepositoryImpl @Inject constructor(
     override fun doLoginCall(email: String, password: String):
             Single<User> = networkService.doLoginCall(LoginRequest(email, password))
         .map {
-            User(
-                id = it.userId,
-                name = it.userName,
-                email = it.userEmail,
-                accessToken = it.accessToken,
-                profilePicUrl = it.profilePicUrl
-            )
+            it.run {
+                User(
+                    id = userId,
+                    name = userName,
+                    email = userEmail,
+                    accessToken = accessToken,
+                    profilePicUrl = profilePicUrl
+                )
+            }
         }
 
     override fun doSignUpCall(name: String, email: String, password: String):
             Single<User> =
         networkService.doSignUpCall(SignUpRequest(email = email, password = password, name = name))
             .map {
-                User(
-                    id = it.userId,
-                    name = it.userName,
-                    email = it.userEmail,
-                    accessToken = it.accessToken,
-                    profilePicUrl = it.profilePicUrl
-                )
+                it.data.run {
+                    User(
+                        id = userId,
+                        name = userName,
+                        email = userEmail,
+                        accessToken = accessToken
+                    )
+                }
             }
 
     override fun doSignOutCall():
@@ -79,7 +83,7 @@ class UserRepositoryImpl @Inject constructor(
         )
 
     override fun fetchMyInfo():
-            Single<User> =
+            Single<Me> =
         networkService.fetchMyInfo(
             accessToken = getCurrentUser()!!.accessToken,
             userId = getCurrentUser()!!.id

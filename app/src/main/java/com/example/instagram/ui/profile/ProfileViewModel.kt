@@ -2,7 +2,7 @@ package com.example.instagram.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.instagram.data.model.User
+import com.example.instagram.data.model.Me
 import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.ui.base.BaseViewModel
 import com.example.instagram.utils.network.NetworkHelper
@@ -20,8 +20,8 @@ class ProfileViewModel(
     private val _goToLogin: MutableLiveData<Boolean> = MutableLiveData(false)
     val goToLogin: LiveData<Boolean>
         get() = _goToLogin
-    private val _myInfo: MutableLiveData<User> = MutableLiveData()
-    val myInfo: LiveData<User>
+    private val _myInfo: MutableLiveData<Me> = MutableLiveData()
+    val myInfo: LiveData<Me>
         get() = _myInfo
 
     override fun onCreate() {

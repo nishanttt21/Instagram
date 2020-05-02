@@ -3,19 +3,20 @@ package com.example.instagram.data.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class User(
+/**
+ * Created by @author Deepak Dawade on 5/3/20.
+ * Copyright (c) 2020 deepakdawade.dd@gmail.com All rights reserved.
+ */
+data class Me(
     @Expose
-    @SerializedName("userId")
+    @SerializedName("id")
     val id: String,
     @Expose
-    @SerializedName("userName")
+    @SerializedName("name")
     var name: String,
     @Expose
-    @SerializedName("userEmail")
+    @SerializedName("email")
     var email: String,
-    @Expose
-    @SerializedName("accessToken")
-    val accessToken: String,
     @Expose
     @SerializedName("tagline")
     var tagline: String = "",

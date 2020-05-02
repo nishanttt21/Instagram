@@ -1,5 +1,6 @@
 package com.example.instagram.data.remote
 
+import com.example.instagram.data.model.Me
 import com.example.instagram.data.remote.request.*
 import com.example.instagram.data.remote.response.*
 import io.reactivex.Single
@@ -27,7 +28,7 @@ interface NetworkService {
     fun doSignUpCall(
         @Body request: SignUpRequest,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY // default value set when Networking create is called
-    ): Single<SignUpResponse>
+    ): Single<MyResponse<SignUpResponse>>
 
     @GET(Endpoints.HOME_POST_LIST)
     fun doHomePostListCall(
@@ -66,7 +67,7 @@ interface NetworkService {
         @Header(Networking.HEADER_USER_ID) userId: String, // pass using UserRepository
         @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using UserRepository
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
-    ): Single<MyResponse>
+    ): Single<MyResponse<Me>>
 
     @PUT(Endpoints.ME)
     fun updateMyInfo(

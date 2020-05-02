@@ -1,6 +1,5 @@
 package com.example.instagram.ui.loginsignup.signup
 
-import android.content.Intent
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
@@ -9,7 +8,6 @@ import com.example.instagram.R
 import com.example.instagram.databinding.FragmentSignupBinding
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
-import com.example.instagram.ui.loginsignup.login.LoginFragment
 import com.example.instagram.ui.loginsignup.login.signup.SignUpViewModel
 import com.example.instagram.utils.common.Status
 
@@ -31,7 +29,7 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding, SignUpViewModel>() {
             viewModel.doSignUp()
         }
         binding.loginWithEmailBtn.setOnClickListener {
-            startActivity(Intent(requireContext(), LoginFragment::class.java))
+            findNavController().navigateUp()
         }
     }
 

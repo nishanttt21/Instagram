@@ -5,15 +5,6 @@ import com.google.gson.annotations.SerializedName
 
 data class LoginResponse(
     @Expose
-    @SerializedName("statusCode")
-    val statusCode: String,
-    @Expose
-    @SerializedName("status")
-    val status: Int,
-    @Expose
-    @SerializedName("message")
-    val message: String,
-    @Expose
     @SerializedName("accessToken")
     val accessToken: String,
     @Expose
