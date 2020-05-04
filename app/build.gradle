@@ -40,6 +40,9 @@ android {
     dataBinding {
         enabled = true
     }
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -58,8 +61,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
 
     // Material Design
-    implementation "com.google.android.material:material:$support_library_version"
 
+    implementation "com.google.android.material:material:$material_design_version"
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$support_library_version"
 
@@ -99,6 +102,7 @@ dependencies {
     // Image
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // Networking
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

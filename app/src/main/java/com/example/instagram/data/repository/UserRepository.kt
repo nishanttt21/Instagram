@@ -13,5 +13,5 @@ interface UserRepository {
     fun doSignUpCall(name: String, email: String, password: String): Single<User>
     fun doSignOutCall(): Single<GeneralResponse>
     fun fetchMyInfo(): Single<Me>
-    fun updateMyInfo(user: User): Single<GeneralResponse>
+    fun updateMyInfo(me: Me): Single<GeneralResponse>
 }

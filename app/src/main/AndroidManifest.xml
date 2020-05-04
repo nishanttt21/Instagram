@@ -2,24 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.instagram">
 
-    <!--    <application-->
-    <!--        android:allowBackup="true"-->
-    <!--        android:icon="@mipmap/ic_launcher"-->
-    <!--        android:label="@string/app_name"-->
-    <!--        android:name=".InstagramApp"-->
-    <!--        android:roundIcon="@mipmap/ic_launcher_round"-->
-    <!--        android:supportsRtl="true"-->
-    <!--        android:theme="@style/AppTheme">-->
-    <!--        <activity android:name=".ui.main.MainActivity">-->
-    <!--            <intent-filter>-->
-    <!--                <action android:name="android.intent.action.MAIN" />-->
-
-    <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-    <!--            </intent-filter>-->
-    <!--        </activity>-->
-    <!--    </application>-->
-
-<!--    <uses-permission android:name="android.permission.INTERNET" />-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -32,7 +17,8 @@
 
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -40,10 +26,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.loginsignup.LoginSignupActivity" />
-        <activity android:name=".ui.dummy.DummyActivity" />
-        <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.profile.editprofile.EditProfileActivity" />
+        <activity
+            android:name=".ui.loginsignup.LoginSignupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.dummy.DummyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.profile.editprofile.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.post.postdetail.PostDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -15,12 +15,9 @@ data class Me(
     @SerializedName("name")
     var name: String,
     @Expose
-    @SerializedName("email")
-    var email: String,
-    @Expose
     @SerializedName("tagline")
-    var tagline: String = "",
+    var tagline: String,
     @Expose
     @SerializedName("profilePicUrl")
-    var profilePicUrl: String? = null
+    var profilePicUrl: String?
 )

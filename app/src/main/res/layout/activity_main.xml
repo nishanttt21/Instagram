@@ -40,7 +40,8 @@
             android:background="@color/colorWhite"
             app:labelVisibilityMode="unlabeled"
             app:elevation="8dp"
-            app:itemIconTint="@color/colorBlack"
+            android:fitsSystemWindows="true"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
             style="@style/Widget.MaterialComponents.BottomNavigationView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/menu_bottom_navigation" />

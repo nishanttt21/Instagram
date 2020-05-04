@@ -51,4 +51,16 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="try_again">Please try again</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="following_count">100\nFollowing</string>
+    <string name="followers_count">50\nFollowers</string>
+    <string name="posts_count">10\nPosts</string>
+    <string name="settings">settings</string>
+    <string name="saved">Saved</string>
+    <string name="close_friends">Close Friends</string>
+    <string name="navigation_drawer_open">Drawer Open</string>
+    <string name="navigation_drawer_close">Drawer Close</string>
+    <string name="side_sheet_behavior">com.example.instagram.ui.sidesheetdialog.SideSheetBehavior</string>
+    <string name="menu_activity">Activity</string>
+    <string name="menu_search">Search</string>
 </resources>

@@ -11,6 +11,7 @@ import com.example.instagram.ui.dummy.DummyViewModel
 import com.example.instagram.ui.loginsignup.LoginSignupViewModel
 import com.example.instagram.ui.main.MainSharedViewModel
 import com.example.instagram.ui.main.MainViewModel
+import com.example.instagram.ui.post.postdetail.PostDetailViewModel
 import com.example.instagram.ui.profile.editprofile.EditProfileViewModel
 import com.example.instagram.ui.splash.SplashViewModel
 import com.example.instagram.utils.ViewModelProviderFactory
@@ -115,4 +116,18 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
                 directory
             )
         }).get(EditProfileViewModel::class.java)
+
+    @Provides
+    fun providePostDetailViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper
+    ): PostDetailViewModel = ViewModelProvider(
+        activity, ViewModelProviderFactory(PostDetailViewModel::class) {
+            PostDetailViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper
+            )
+        }).get(PostDetailViewModel::class.java)
 }

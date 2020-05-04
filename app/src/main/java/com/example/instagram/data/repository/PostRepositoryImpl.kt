@@ -2,12 +2,12 @@ package com.example.instagram.data.repository
 
 import com.example.instagram.data.local.DatabaseService
 import com.example.instagram.data.model.Dummy
-import com.example.instagram.data.model.Post
 import com.example.instagram.data.model.User
 import com.example.instagram.data.remote.NetworkService
 import com.example.instagram.data.remote.request.DummyRequest
 import com.example.instagram.data.remote.request.PostCreationRequest
 import com.example.instagram.data.remote.request.PostLikeModifyRequest
+import com.example.instagram.data.remote.response.PostData
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,7 +22,7 @@ class PostRepositoryImpl @Inject constructor(
         networkService.doDummyCall(DummyRequest(id)).map { it.data }
 
     override fun fetchHomePostListCall(firstPostId: String?, lastPostId: String?, user: User):
-            Single<List<Post>> =
+            Single<List<PostData>> =
         networkService.doHomePostListCall(
             firstPostId = firstPostId,
             lastPostId = lastPostId,
@@ -33,56 +33,60 @@ class PostRepositoryImpl @Inject constructor(
                 it.data
             }
 
-    override fun makeLikePost(post: Post, user: User):
-            Single<Post> =
+    override fun makeLikePost(postData: PostData, user: User):
+            Single<PostData> =
         networkService.doPostLikeCall(
-            PostLikeModifyRequest(post.id),
+            PostLikeModifyRequest(postData.id),
             user.id,
             user.accessToken
         ).map {
-            post.likedBy?.apply {
+            postData.likedBy?.apply {
                 this.find { postUser -> postUser.id == user.id } ?: this.add(
-                    Post.User(
+                    PostData.User(
                         user.id,
                         user.name,
                         user.profilePicUrl
                     )
                 )
             }
-            return@map post
+            return@map postData
         }
 
 
-    override fun makeUnlikePost(post: Post, user: User):
-            Single<Post> =
+    override fun makeUnlikePost(postData: PostData, user: User):
+            Single<PostData> =
         networkService.doPostUnLikeCall(
-            PostLikeModifyRequest(postId = post.id),
+            PostLikeModifyRequest(postId = postData.id),
             userId = user.id,
             accessToken = user.accessToken
         ).map {
-            post.likedBy?.apply {
+            postData.likedBy?.apply {
                 find { postUser -> postUser.id == user.id }?.let { remove(it) }
             }
-            return@map post
+            return@map postData
         }
 
     override fun createPost(imageUrl: String, imageWidth: Int, imageHeight: Int, user: User):
-            Single<Post> = networkService.doPostCreate(
+            Single<PostData> = networkService.doPostCreate(
         PostCreationRequest(imageUrl, imageWidth, imageHeight), user.id, user.accessToken
     ).map {
         it.data.let {
-            Post(
-                it.id,
-                it.imgUrl,
-                it.imgWidth,
-                it.imgHeight,
-                Post.User(
-                    user.id,
-                    user.name,
-                    user.profilePicUrl
-                ), mutableListOf(),
-                it.createdAt
-            )
+            it.run {
+                PostData(
+                    id,
+                    imgUrl,
+                    imgWidth,
+                    imgHeight,
+                    createdAt,
+                    creator = PostData.User(
+                        id = user.id,
+                        name = user.name,
+                        profilePicUrl = user.profilePicUrl
+                    ),
+                    likedBy = mutableListOf()
+                )
+
+            }
         }
     }
 }

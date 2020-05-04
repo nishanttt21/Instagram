@@ -2,6 +2,8 @@ package com.example.instagram.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.instagram.R
@@ -25,20 +27,42 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_profile
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchMyInfo()
+    }
 
     override fun setupView() {
-        binding.tvLogout.setOnClickListener {
+        binding.ivOptions.setOnClickListener {
+//            val dialog = DemoSideSheetDialogFragment()
+//            dialog.show(
+//                requireActivity().supportFragmentManager,
+//                DemoSideSheetDialogFragment::class.java.getName()
+//            )
+            if (binding.profileOptionLayout.isVisible)
+                binding.profileOptionLayout.visibility = View.GONE
+            else binding.profileOptionLayout.visibility = View.VISIBLE
+        }
+        binding.logoutOption.setOnClickListener {
             viewModel.onLogoutClick()
+        }
+
+        binding.rootLayout.setOnClickListener {
+            if (binding.profileOptionLayout.isVisible)
+                binding.profileOptionLayout.visibility = View.GONE
+        }
+        binding.settingOption.setOnClickListener {
+            showSnackBar("This Feature Available soon")
+        }
+        binding.savedOption.setOnClickListener {
+            showSnackBar("This Feature Available soon")
+        }
+        binding.closeFriendOption.setOnClickListener {
+            showSnackBar("This Feature Available soon")
         }
         binding.btnEditProfile.setOnClickListener {
             startActivity(Intent(requireActivity(), EditProfileActivity::class.java))
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.fetchMyInfo()
-
     }
 
     override fun setupObservers() {

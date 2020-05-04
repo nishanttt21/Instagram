@@ -2,8 +2,8 @@ package com.example.instagram.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.instagram.data.model.Post
 import com.example.instagram.data.model.User
+import com.example.instagram.data.remote.response.PostData
 import com.example.instagram.data.repository.PostRepository
 import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.ui.base.BaseViewModel
@@ -20,7 +20,7 @@ class HomeViewModel(
     networkHelper: NetworkHelper,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
-    private val allPostList: ArrayList<Post>,
+    private val allPostList: ArrayList<PostData>,
     private val paginator: PublishProcessor<Pair<String?, String?>>
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
@@ -28,12 +28,12 @@ class HomeViewModel(
     val loading: LiveData<Boolean>
         get() = _loading
 
-    private val _posts: MutableLiveData<Resource<List<Post>>> = MutableLiveData()
-    val posts: LiveData<Resource<List<Post>>>
-        get() = _posts
+    private val _postsData: MutableLiveData<Resource<List<PostData>>> = MutableLiveData()
+    val postsData: LiveData<Resource<List<PostData>>>
+        get() = _postsData
 
-    private val _refreshPosts: MutableLiveData<Resource<List<Post>>> = MutableLiveData()
-    val refreshPosts: LiveData<Resource<List<Post>>>
+    private val _refreshPosts: MutableLiveData<Resource<List<PostData>>> = MutableLiveData()
+    val refreshPosts: LiveData<Resource<List<PostData>>>
         get() = _refreshPosts
 
     private val user: User = userRepository.getCurrentUser()!!
@@ -45,10 +45,10 @@ class HomeViewModel(
             paginator.onBackpressureDrop()
                 .doOnNext {
                     _loading.postValue(true)
-                }.concatMapSingle { postIds ->
+                }.concatMapSingle {
                     return@concatMapSingle postRepository.fetchHomePostListCall(
-                        postIds.first,
-                        postIds.second,
+                        it.first,
+                        it.second,
                         user
                     )
                         .subscribeOn(Schedulers.io())
@@ -58,10 +58,10 @@ class HomeViewModel(
 
                 }.subscribe({
                     allPostList.addAll(it)
-                    firstId = allPostList.maxBy { post -> post.createdAt.time }?.id
-                    lastId = allPostList.minBy { post -> post.createdAt.time }?.id
+                    firstId = allPostList.maxBy { postData -> postData.createdAt.time }?.id
+                    lastId = allPostList.minBy { postData -> postData.createdAt.time }?.id
                     _loading.postValue(false)
-                    _posts.postValue(Resource.success(it))
+                    _postsData.postValue(Resource.success(it))
                 }, {
                     handleNetworkError(it)
                 })
@@ -83,8 +83,12 @@ class HomeViewModel(
         }
     }
 
-    fun onNewPost(post: Post) {
-        allPostList.add(0, post)
-        _refreshPosts.postValue(Resource.success(mutableListOf<Post>().apply { addAll(allPostList) }))
+    fun onNewPost(postData: PostData) {
+        allPostList.add(0, postData)
+        _refreshPosts.postValue(Resource.success(mutableListOf<PostData>().apply {
+            addAll(
+                allPostList
+            )
+        }))
     }
 }

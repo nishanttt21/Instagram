@@ -7,7 +7,6 @@ import com.example.instagram.data.model.User
 import com.example.instagram.data.remote.NetworkService
 import com.example.instagram.data.remote.request.LoginRequest
 import com.example.instagram.data.remote.request.SignUpRequest
-import com.example.instagram.data.remote.request.UpdateRequest
 import com.example.instagram.data.remote.response.GeneralResponse
 import io.reactivex.Single
 import javax.inject.Inject
@@ -56,7 +55,7 @@ class UserRepositoryImpl @Inject constructor(
                     name = userName,
                     email = userEmail,
                     accessToken = accessToken,
-                    profilePicUrl = profilePicUrl
+                    refreshToken = refreshToken
                 )
             }
         }
@@ -65,22 +64,22 @@ class UserRepositoryImpl @Inject constructor(
             Single<User> =
         networkService.doSignUpCall(SignUpRequest(email = email, password = password, name = name))
             .map {
-                it.data.run {
-                    User(
+                it.run {
+                    return@map User(
                         id = userId,
                         name = userName,
                         email = userEmail,
-                        accessToken = accessToken
+                        accessToken = accessToken,
+                        refreshToken = refreshToken
                     )
                 }
             }
 
     override fun doSignOutCall():
-            Single<GeneralResponse> =
-        networkService.doSignOutCall(
-            accessToken = getCurrentUser()!!.accessToken,
-            userId = getCurrentUser()!!.id
-        )
+            Single<GeneralResponse> = networkService.doSignOutCall(
+        accessToken = userPreferences.getAccessToken()!!,
+        userId = userPreferences.getUserId()!!
+    )
 
     override fun fetchMyInfo():
             Single<Me> =
@@ -89,9 +88,9 @@ class UserRepositoryImpl @Inject constructor(
             userId = getCurrentUser()!!.id
         ).map { it.data }
 
-    override fun updateMyInfo(user: User):
+    override fun updateMyInfo(me: Me):
             Single<GeneralResponse> = networkService.updateMyInfo(
-        UpdateRequest(name = user.name, profilePicUrl = user.profilePicUrl, tagline = user.tagline)
-        , accessToken = user.accessToken, userId = user.id
+        me
+        , accessToken = userPreferences.getAccessToken()!!, userId = userPreferences.getUserId()!!
     )
 }

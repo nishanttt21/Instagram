@@ -15,6 +15,7 @@ import com.example.instagram.InstagramApp
 import com.example.instagram.di.component.DaggerFragmentComponent
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.di.module.FragmentModule
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 abstract class BaseFragment<DB : ViewDataBinding, VM : BaseViewModel> : Fragment() {
@@ -69,4 +70,10 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : BaseViewModel> : Fragment
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 
     fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
+
+    fun showSnackBar(message: String) =
+        Snackbar.make(this.requireView(), message, Snackbar.LENGTH_SHORT).show()
+
+    fun showSnackBar(@StringRes resId: Int) = showSnackBar(getString(resId))
+
 }

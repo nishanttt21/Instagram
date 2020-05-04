@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Janishar Ali" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivProfilePic"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
@@ -46,7 +46,7 @@
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_profile_selected" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivPost"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_photo" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivLike"
                 android:layout_width="32dp"
                 android:layout_height="32dp"

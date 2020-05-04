@@ -27,14 +27,17 @@ class EditProfileViewModel(
     private val _status: MutableLiveData<Boolean> = MutableLiveData()
     val status: LiveData<Boolean>
         get() = _status
-    private val _myInfo: MutableLiveData<Me> = MutableLiveData()
-    val myInfo: LiveData<Me>
-        get() = _myInfo
+    private val _username: MutableLiveData<String> = MutableLiveData()
+    val username: LiveData<String> get() = _username
+    private val _userEmail: MutableLiveData<String> = MutableLiveData()
+    val userEmail: LiveData<String> get() = _userEmail
+    private val _userBio: MutableLiveData<String> = MutableLiveData()
+    val userBio: LiveData<String> get() = _userBio
+    private val _userProfilePic: MutableLiveData<String> = MutableLiveData()
+    val userProfilePic: LiveData<String> get() = _userProfilePic
 
-    private val _profilePic: MutableLiveData<String> = MutableLiveData()
-    val profilePic: LiveData<String> get() = _profilePic
     override fun onCreate() {
-
+        _userEmail.value = userRepository.getCurrentUser()?.email
     }
 
     fun currentUser() = userRepository.getCurrentUser()
@@ -44,10 +47,9 @@ class EditProfileViewModel(
                 .subscribeOn(Schedulers.io())
                 .subscribe({ me ->
                     me?.run {
-                        _myInfo.postValue(this)
-                        profilePicUrl?.let {
-                            _profilePic.postValue(it)
-                        }
+                        _username.postValue(name)
+                        _userBio.postValue(tagline)
+                        _userProfilePic.postValue(profilePicUrl)
                     }
                 }, {
                     handleNetworkError(it)
@@ -56,11 +58,18 @@ class EditProfileViewModel(
     }
 
     fun updateData(user: User) {
+        val me = Me(
+            id = user.id,
+            name = user.name,
+            tagline = user.tagline,
+            profilePicUrl = user.profilePicUrl
+        )
         _status.postValue(true)
         compositeDisposable.addAll(
-            userRepository.updateMyInfo(user)
+            userRepository.updateMyInfo(me)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
+                    userRepository.removeCurrentUser()
                     userRepository.saveCurrentUser(user)
                     _status.postValue(false)
                 }, {
@@ -74,13 +83,18 @@ class EditProfileViewModel(
         compositeDisposable.add(
             Single.fromCallable {
                 FileUtils.saveInputStreamToFile(inputStream, directory, "gallery_img_temp", 500)
-            }.subscribeOn(Schedulers.io())
-                .subscribe({
-                    _profilePic.postValue(it?.path)
-                }, {
+            }.subscribeOn(Schedulers.io()).subscribe({
+                if (it != null) {
+                    FileUtils.getImageSize(it)?.run {
+                        _userProfilePic.postValue(it.path)
+                    }
+                } else {
                     messageStringId.postValue(Resource.error(R.string.try_again))
+                }
+            }, {
+                messageStringId.postValue(Resource.error(R.string.try_again))
 
-                })
+            })
         )
     }
 }

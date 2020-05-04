@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.splash.SplashActivity">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/instagramLogo"
             android:layout_width="0dp"
             android:layout_height="58dp"

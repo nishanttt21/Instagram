@@ -2,124 +2,252 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/ivProfilePic"
-            android:layout_width="86dp"
-            android:layout_height="86dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_person"
-            app:layout_constraintStart_toStartOf="@id/guidelineStart"
-            app:layout_constraintTop_toTopOf="@id/guidelineTop" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/root_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Deepak Dawade"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/ivProfilePic"
-            app:layout_constraintBottom_toTopOf="@id/tvUserBio"
-            app:layout_constraintStart_toStartOf="@id/guidelineStart" />
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_width="0dp"
+                android:layout_height="?actionBarSize"
+                android:background="@color/colorWhite"
+                android:elevation="6dp"
+                android:padding="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvUserBio"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:singleLine="false"
-            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-            app:layout_constraintStart_toStartOf="@id/guidelineStart"
-            app:layout_constraintTop_toBottomOf="@id/tvUserName"
-            android:text="I am passionate  Android Developer and I am aim to reach high and Touch the sky." />
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/logout"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-            app:layout_constraintTop_toTopOf="parent"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_userId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="deepak.dawade"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvPostCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="10\nPosts"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@id/btnEditProfile"
-            app:layout_constraintEnd_toStartOf="@+id/tvFollowersCount"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
-            app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
+                        <ImageView
+                            android:id="@+id/iv_options"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_option_menu"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.appbar.MaterialToolbar>
+            </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvFollowersCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100\nFollowers"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvPostCount"
-            app:layout_constraintEnd_toStartOf="@+id/tvFollowingCount"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/tvPostCount" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_person"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvFollowingCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="50\nFollowing"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvFollowersCount"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/tvFollowersCount" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Deepak Dawade"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@id/tvUserBio"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/ivProfilePic" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnEditProfile"
-            style="@style/AppTheme.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Edit Profile"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
-            app:layout_constraintEnd_toEndOf="@id/tvFollowingCount"
-            app:layout_constraintStart_toStartOf="@id/tvPostCount" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvUserBio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:singleLine="false"
+                android:text="I am passionate  Android Developer and I am aim to reach high and Touch the sky."
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/tvUserName" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="16dp" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvPostCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="@string/posts_count"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
+                app:layout_constraintEnd_toStartOf="@+id/tvFollowersCount"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
+                app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="16dp" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvFollowersCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="@string/followers_count"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvPostCount"
+                app:layout_constraintEnd_toStartOf="@+id/tvFollowingCount"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tvPostCount" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="16dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvFollowingCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="@string/following_count"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvFollowersCount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tvFollowersCount" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEditProfile"
+                style="@style/AppTheme.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/edit_profile"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/tvUserBio" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+            <LinearLayout
+                android:id="@+id/profile_option_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+
+                <TextView
+                    android:id="@+id/savedOption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:drawableStart="@drawable/ic_bookmark"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/saved"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="24sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp" />
+
+                <TextView
+                    android:id="@+id/closeFriendOption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:drawableStart="@drawable/ic_list_bulleted"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/close_friends"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="24sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp" />
+
+                <TextView
+                    android:id="@+id/logoutOption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:drawableStart="@drawable/ic_close"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/logout"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="24sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp" />
+
+                <TextView
+                    android:id="@+id/settingOption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:drawableStart="@drawable/ic_settings"
+                    android:drawablePadding="16dp"
+                    android:text="@string/settings"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
+
+
+    <!--<com.google.android.material.navigation.NavigationView-->
+    <!--android:id="@+id/nav_view"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="end"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--app:menu="@menu/menu_profile_option" />-->

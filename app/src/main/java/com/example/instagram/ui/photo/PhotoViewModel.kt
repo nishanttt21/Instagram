@@ -3,7 +3,7 @@ package com.example.instagram.ui.photo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.instagram.R
-import com.example.instagram.data.model.Post
+import com.example.instagram.data.remote.response.PostData
 import com.example.instagram.data.repository.PhotoRepository
 import com.example.instagram.data.repository.PostRepository
 import com.example.instagram.data.repository.UserRepository
@@ -33,9 +33,9 @@ class PhotoViewModel(
     val loadingProgressBar: LiveData<Boolean>
         get() = _loadingProgressBar
     private val user = userRepository.getCurrentUser()!!
-    private val _post: MutableLiveData<Event<Post>> = MutableLiveData()
-    val post: LiveData<Event<Post>>
-        get() = _post
+    private val _postData: MutableLiveData<Event<PostData>> = MutableLiveData()
+    val postData: LiveData<Event<PostData>>
+        get() = _postData
 
     override fun onCreate() {
 //        TODO("Not yet implemented")
@@ -90,7 +90,7 @@ class PhotoViewModel(
                 }
                 .subscribeOn(Schedulers.io()).subscribe({
                     _loadingProgressBar.postValue(false)
-                    _post.postValue(Event(it))
+                    _postData.postValue(Event(it))
                 }, {
                     handleNetworkError(it)
                     _loadingProgressBar.postValue(false)

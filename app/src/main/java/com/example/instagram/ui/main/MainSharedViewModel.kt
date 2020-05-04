@@ -2,7 +2,7 @@ package com.example.instagram.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.instagram.data.model.Post
+import com.example.instagram.data.remote.response.PostData
 import com.example.instagram.ui.base.BaseViewModel
 import com.example.instagram.utils.common.Event
 import com.example.instagram.utils.network.NetworkHelper
@@ -17,11 +17,11 @@ class MainSharedViewModel(
     private val _homeRedirection: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val homeRedirection: LiveData<Event<Boolean>>
         get() = _homeRedirection
-    private val _newPost: MutableLiveData<Event<Post>> = MutableLiveData()
-    val newPost: LiveData<Event<Post>>
+    private val _newPost: MutableLiveData<Event<PostData>> = MutableLiveData()
+    val newPost: LiveData<Event<PostData>>
         get() = _newPost
 
-    fun setNewPost(post: Post) {
+    fun setNewPost(post: PostData) {
         _newPost.value = Event(post)
     }
 

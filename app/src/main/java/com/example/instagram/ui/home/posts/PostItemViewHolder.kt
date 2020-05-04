@@ -6,26 +6,33 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.instagram.R
-import com.example.instagram.data.model.Post
+import com.example.instagram.data.remote.response.PostData
 import com.example.instagram.databinding.ItemViewPostBinding
 import com.example.instagram.di.component.ViewHolderComponent
 import com.example.instagram.ui.base.BaseItemViewHolder
 import com.example.instagram.utils.common.GlideHelper
 
-class PostItemViewHolder(parent: ViewGroup) :
-    BaseItemViewHolder<ItemViewPostBinding, Post, PostItemViewModel>(
+class PostItemViewHolder(parent: ViewGroup, val listener: HandlePostClicks) :
+    BaseItemViewHolder<ItemViewPostBinding, PostData, PostItemViewModel>(
         ItemViewPostBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
     ) {
+    interface HandlePostClicks {
+        fun onPostClick(postId: String)
+    }
+
     override fun injectDependencies(viewHolderComponent: ViewHolderComponent):
             Unit = viewHolderComponent.inject(this)
 
     override fun setupView() {
         binding.ivLike.setOnClickListener {
             viewModel.onLikeClick()
+        }
+        binding.ivPost.setOnClickListener {
+            listener.onPostClick(viewModel.postId.value ?: "random")
         }
     }
 

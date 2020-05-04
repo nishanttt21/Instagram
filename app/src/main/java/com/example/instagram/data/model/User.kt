@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class User(
     @Expose
     @SerializedName("userId")
-    val id: String,
+    var id: String,
     @Expose
     @SerializedName("userName")
     var name: String,
@@ -15,7 +15,10 @@ data class User(
     var email: String,
     @Expose
     @SerializedName("accessToken")
-    val accessToken: String,
+    var accessToken: String,
+    @Expose
+    @SerializedName("refreshToken")
+    var refreshToken: String = "",
     @Expose
     @SerializedName("tagline")
     var tagline: String = "",

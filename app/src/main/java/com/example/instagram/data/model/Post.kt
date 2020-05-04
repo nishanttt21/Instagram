@@ -4,47 +4,21 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
+
 data class Post(
     @Expose
     @SerializedName("id")
-    val id: String,
-
+    var id: String,
     @Expose
     @SerializedName("imgUrl")
-    val imageUrl: String,
-
+    var imgUrl: String,
     @Expose
     @SerializedName("imgWidth")
-    val imageWidth: Int?,
-
+    var imgWidth: Int,
     @Expose
     @SerializedName("imgHeight")
-    val imageHeight: Int?,
-
-    @Expose
-    @SerializedName("user")
-    val creator: User,
-
-    @Expose
-    @SerializedName("likedBy")
-    val likedBy: MutableList<User>?,
-
+    var imgHeight: Int,
     @Expose
     @SerializedName("createdAt")
-    val createdAt: Date
-) {
-
-    data class User(
-        @Expose
-        @SerializedName("id")
-        val id: String,
-
-        @Expose
-        @SerializedName("name")
-        val name: String,
-
-        @Expose
-        @SerializedName("profilePicUrl")
-        val profilePicUrl: String?
-    )
-}
+    var createdAt: Date
+)

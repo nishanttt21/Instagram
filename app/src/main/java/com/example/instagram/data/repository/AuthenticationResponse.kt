@@ -1,9 +1,22 @@
-package com.example.instagram.data.remote.response
+package com.example.instagram.data.repository
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class LoginResponse(
+/**
+ * Created by @author Deepak Dawade on 5/3/20.
+ * Copyright (c) 2020 deepakdawade.dd@gmail.com All rights reserved.
+ */
+data class AuthenticationResponse(
+    @Expose
+    @SerializedName("statusCode")
+    var statusCode: String,
+    @Expose
+    @SerializedName("status")
+    var status: Int,
+    @Expose
+    @SerializedName("message")
+    var message: String,
     @Expose
     @SerializedName("accessToken")
     val accessToken: String,
@@ -22,18 +35,5 @@ data class LoginResponse(
     @Expose
     @SerializedName("profilePicUrl")
     val profilePicUrl: String?
+
 )
-
-
-/*
-
-{
-    "statusCode": "success",
-    "status": 200,
-    "message": "",
-    "accessToken": "",
-    "refreshToken": "",
-    "userId": "",
-    "userName": "",
-    "userEmail": ""
-}*/

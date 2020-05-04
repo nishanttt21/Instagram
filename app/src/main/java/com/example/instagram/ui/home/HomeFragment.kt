@@ -10,7 +10,9 @@ import com.example.instagram.databinding.FragmentHomeBinding
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
 import com.example.instagram.ui.home.posts.PostAdapter
+import com.example.instagram.ui.home.posts.PostItemViewHolder
 import com.example.instagram.ui.main.MainSharedViewModel
+import com.example.instagram.ui.post.postdetail.PostDetailActivity
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -33,12 +35,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
 
-    @Inject
     lateinit var postAdapter: PostAdapter
 
     override fun provideLayoutId(): Int = R.layout.fragment_home
 
     override fun setupView() {
+        postAdapter =
+            PostAdapter(lifecycle, ArrayList(), object : PostItemViewHolder.HandlePostClicks {
+                override fun onPostClick(postid: String) {
+                    startActivity(
+                        PostDetailActivity.getStartIntent(
+                            requireContext(),
+                            postId = postid
+                        )
+                    )
+                }
+            })
+        binding.ivCamera.setOnClickListener {
+            showSnackBar("Coming Soon")
+        }
+        binding.ivInstaDirect.setOnClickListener {
+            showSnackBar("Coming Soon")
+        }
+
         binding.rvPosts.apply {
             layoutManager = linearLayoutManager
             adapter = postAdapter
@@ -56,7 +75,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.posts.observe(this, Observer {
+        viewModel.postsData.observe(this, Observer {
             it.data?.run { postAdapter.appendData(this) }
         })
         viewModel.loading.observe(this, Observer {

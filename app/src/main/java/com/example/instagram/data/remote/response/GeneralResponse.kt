@@ -6,9 +6,11 @@ import com.google.gson.annotations.SerializedName
 data class GeneralResponse(
     @Expose
     @SerializedName("statusCode")
-    var statusCode: String,
-
+    val statusCode: String,
+    @Expose
+    @SerializedName("status")
+    val status: Int,
     @Expose
     @SerializedName("message")
-    var message: String
+    val message: String
 )

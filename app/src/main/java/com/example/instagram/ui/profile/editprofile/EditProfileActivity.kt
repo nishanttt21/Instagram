@@ -23,6 +23,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding, EditProfile
 
     override fun setupView(savedInstanceState: Bundle?) {
         setSupportActionBar(binding.toolbar)
+        viewModel.fetchMyInfo()
         binding.tvChangeProfile.setOnClickListener {
             Intent(Intent.ACTION_PICK).apply {
                 type = "image/*"
@@ -37,7 +38,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding, EditProfile
                     name = etName.text.toString()
                     email = etEmail.text.toString()
                     tagline = etBio.text.toString()
-                    viewModel.profilePic.value?.let { url ->
+                    viewModel.userProfilePic.value?.let { url ->
                         profilePicUrl = url
                     }
                 }
@@ -51,41 +52,28 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding, EditProfile
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.fetchMyInfo()
-
-    }
-
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.profilePic.observe(this, Observer {
+        viewModel.userProfilePic.observe(this, Observer {
             Glide.with(binding.profilePic.context)
                 .load(it)
                 .placeholder(R.drawable.ic_profile_add_pic)
                 .into(binding.profilePic)
         })
-        viewModel.myInfo.observe(this, Observer {
-            it?.let {
-                binding.apply {
-                    etName.setText(it.name)
-                    etEmail.setText(it.email)
-                    etBio.setText(it.tagline)
-                    it.profilePicUrl?.let {
-                        Glide.with(profilePic.context)
-                            .load(it)
-                            .placeholder(R.drawable.ic_profile_add_pic)
-                            .into(profilePic)
-
-                    }
-                }
-            }
+        viewModel.username.observe(this, Observer {
+            binding.etName.setText(it)
+        })
+        viewModel.userBio.observe(this, Observer {
+            binding.etBio.setText(it)
+        })
+        viewModel.userEmail.observe(this, Observer {
+            binding.etEmail.setText(it)
         })
         viewModel.status.observe(this, Observer {
             if (it == true) {
                 showDialog()
             } else {
-                finish()
+                onBackPressed()
             }
         })
     }

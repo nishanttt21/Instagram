@@ -61,7 +61,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel>() {
         viewModel.loadingProgressBar.observe(this, Observer {
             binding.pbLoading.visibility = if (it == true) View.VISIBLE else View.GONE
         })
-        viewModel.post.observe(this, Observer {
+        viewModel.postData.observe(this, Observer {
             it?.getIfNotHandled()?.run {
                 sharedViewModel.setNewPost(this)
                 sharedViewModel.onHomeRedirect()
