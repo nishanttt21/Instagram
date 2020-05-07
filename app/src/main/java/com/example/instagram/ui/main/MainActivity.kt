@@ -11,6 +11,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -40,11 +41,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
     @Inject
     lateinit var sharedViewModel: MainSharedViewModel
+    private lateinit var appBarConfiguration: AppBarConfiguration
     override fun provideLayoutId(): Int = R.layout.activity_main
     private lateinit var navController: NavController
     override fun setupView(savedInstanceState: Bundle?) {
         navController = this.findNavController(R.id.mainNavHostFragment)
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
+        appBarConfiguration = AppBarConfiguration(navController.graph)
         val menu =  binding.bottomNavigation.menu
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             menu.findItem(R.id.profileFragment).iconTintList = null
@@ -52,6 +55,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+
+        return NavigationUI.navigateUp(navController,appBarConfiguration)
+    }
     override fun setupObservers() {
         super.setupObservers()
         viewModel.userProfile.observe(this, Observer {

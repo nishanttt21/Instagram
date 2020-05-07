@@ -28,31 +28,11 @@ class MyPostItemViewModel @Inject constructor(
     companion object {
         const val TAG = "PostItemViewModel"
     }
-    private val user = userRepository.getCurrentUser()!!
-    private val screenWidth = ScreenUtils.getScreenWidth()
-    private val screenHeight = ScreenUtils.getScreenHeight()
-    private val headers = mapOf(
-        Pair(Networking.HEADER_API_KEY, Networking.API_KEY),
-        Pair(Networking.HEADER_USER_ID, user.id),
-        Pair(Networking.HEADER_ACCESS_TOKEN, user.accessToken)
-    )
-    val post : LiveData<String> = Transformations.map(data){it.imgUrl}
-    val imageDetail: LiveData<Image> = Transformations.map(data) {
-        it.run {
-            Image(
-                imgUrl,
-                headers,
-                screenWidth,
-                screenHeight.let { height ->
-                    return@let (calculateScaleFactor(this) * height).toInt()
-                })
-
-        }
+    val postId : LiveData<String> = Transformations.map(data){
+        it.id
     }
-
+    val image: LiveData<String> = Transformations.map(data){it.imgUrl}
     override fun onCreate() {
         Logger.d(TAG, "onCreate called")
     }
-    private fun calculateScaleFactor(post: Post) =
-        post.imgWidth.let { return@let screenWidth.toFloat() / it }
 }

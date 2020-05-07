@@ -37,10 +37,20 @@
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:lines="1"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/ivPostOptions"
                         app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Janishar Ali" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivPostOptions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_more_vert"
+                        android:layout_margin="8dp"
+                        app:layout_constraintTop_toTopOf="@id/tvName"
+                        app:layout_constraintStart_toEndOf="@id/tvName"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/ivProfilePic"

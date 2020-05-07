@@ -49,7 +49,6 @@ class PostDetailViewModel @Inject constructor(
     val profileImage: LiveData<Image> = Transformations.map(postData) {
         it.creator.profilePicUrl?.run { Image(this, headers) }
     }
-
     val imageDetail: LiveData<Image> = Transformations.map(postData) {
         it?.run {
             Image(
@@ -62,7 +61,8 @@ class PostDetailViewModel @Inject constructor(
 
         }
     }
-
+    private val _status :MutableLiveData<Boolean> = MutableLiveData()
+    val status: LiveData<Boolean> get() = _status
     override fun onCreate() {
         //:TODO("Not yet implemented")
     }
@@ -103,6 +103,16 @@ class PostDetailViewModel @Inject constructor(
         } else {
             messageStringId.postValue(Resource.error(R.string.network_connection_error))
         }
+    }
+
+    fun deletePost(postId: String) {
+        compositeDisposable.addAll(postRepository.deleteMyPost(postId,currentUser).subscribeOn(Schedulers.io()).subscribe({
+            if (it.status == 200 || it.statusCode.equals("success",true)){
+                _status.postValue(true)
+            }
+        },{
+            handleNetworkError(it)
+        }))
     }
 
 }

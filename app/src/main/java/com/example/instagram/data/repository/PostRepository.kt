@@ -3,6 +3,7 @@ package com.example.instagram.data.repository
 import com.example.instagram.data.model.Dummy
 import com.example.instagram.data.model.Post
 import com.example.instagram.data.model.User
+import com.example.instagram.data.remote.response.GeneralResponse
 import com.example.instagram.data.remote.response.PostData
 import io.reactivex.Single
 
@@ -31,4 +32,5 @@ interface PostRepository {
         user: User
     ): Single<PostData>
     fun getPostDetail(postId:String,user: User):Single<PostData>
+    fun deleteMyPost(postId:String,user: User):Single<GeneralResponse>
 }

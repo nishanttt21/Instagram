@@ -1,10 +1,12 @@
 package com.example.instagram.ui.home.postdetail
 
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.instagram.R
@@ -26,10 +28,12 @@ class PostDetailFragment : BaseFragment<FragmentPostDetailBinding, PostDetailVie
     }
 
     val args: PostDetailFragmentArgs by navArgs()
+    val postId :String by lazy { args.postId }
     override fun provideLayoutId(): Int = R.layout.fragment_post_detail
 
     override fun setupView() {
-        viewModel.getPostDetail(args.postId)
+        registerForContextMenu(binding.ivPost)
+        viewModel.getPostDetail(postId)
         binding.ivLike.setOnClickListener {
             viewModel.onLikeClick()
         }
@@ -42,6 +46,20 @@ class PostDetailFragment : BaseFragment<FragmentPostDetailBinding, PostDetailVie
 
     }
 
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater: MenuInflater = MenuInflater(requireContext())
+        inflater.inflate(R.menu.menu_post_options, menu)
+        menu.setHeaderTitle("Item will Added soon")
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.deletePost){
+            viewModel.deletePost(postId)
+            return true
+        }else return super.onContextItemSelected(item)
+    }
+
     private fun navigateToProfileDetailFragment() {
         val bundle = bundleOf(
             ProfileDetailFragment.USER_NAME to viewModel.name.value,
@@ -52,6 +70,11 @@ class PostDetailFragment : BaseFragment<FragmentPostDetailBinding, PostDetailVie
 
     override fun setupObservers() {
         super.setupObservers()
+        viewModel.status.observe(this, Observer {
+            if (it == true){
+                showSnackBar("Deleted")
+            }
+        })
         viewModel.name.observe(this, Observer {
             binding.tvName.text = it
             binding.toolbar.title = String.format(getString(R.string.user_id_formate), it)

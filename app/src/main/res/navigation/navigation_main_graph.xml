@@ -12,13 +12,21 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_postDetailFragment"
-            app:destination="@id/postDetailFragment" />
+            app:destination="@id/postDetailFragment"
+            app:launchSingleTop="true"
+            />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.instagram.ui.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment"
+            app:launchSingleTop="true"
+            />
+    </fragment>
     <fragment
         android:id="@+id/photoFragment"
         android:name="com.example.instagram.ui.photo.PhotoFragment"
@@ -35,7 +43,8 @@
     <fragment
         android:id="@+id/postDetailFragment"
         android:name="com.example.instagram.ui.home.postdetail.PostDetailFragment"
-        android:label="PostDetailFragment" >
+        android:label="PostDetailFragment"
+        >
         <argument
             android:name="postId"
             app:argType="string" />

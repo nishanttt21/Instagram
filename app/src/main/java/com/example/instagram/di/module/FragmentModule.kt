@@ -100,7 +100,7 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
     @Provides
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(fragment.context)
     @Provides
-    fun provideGridLayoutManager(): GridLayoutManager = GridLayoutManager(fragment.context,3)
+    fun provideGridLayoutManager(): GridLayoutManager = GridLayoutManager(fragment.context,2)
 
     @Provides
     fun provideDummiesViewModel(

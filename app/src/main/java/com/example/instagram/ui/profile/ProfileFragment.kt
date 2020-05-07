@@ -5,15 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.instagram.R
 import com.example.instagram.databinding.FragmentProfileBinding
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
-import com.example.instagram.ui.home.posts.PostAdapter
 import com.example.instagram.ui.loginsignup.LoginSignupActivity
 import com.example.instagram.ui.profile.editprofile.EditProfileActivity
 import com.example.instagram.ui.profile.mypost.MyPostAdapter
@@ -33,6 +31,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         }
     }
 
+    @Inject
     lateinit var gridLayoutManager: GridLayoutManager
 
     lateinit var myPostAdapter: MyPostAdapter
@@ -45,13 +44,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     }
 
     override fun setupView() {
-        gridLayoutManager = GridLayoutManager(requireContext(),3)
         myPostAdapter =
-            MyPostAdapter(lifecycle, ArrayList(),object :MyPostItemViewHolder.HandlePostItemClicks{
-                override fun onPostClick(postId: String?) {
-                    showMessage("$postId click")
-                }
-            })
+            MyPostAdapter(
+                lifecycle,
+                ArrayList(),
+                object : MyPostItemViewHolder.HandlePostItemClicks {
+                    override fun onPostClick(postId: String?) {
+                        postId?.let {
+                            val action =
+                                ProfileFragmentDirections.actionProfileFragmentToPostDetailFragment(
+                                    postId
+                                )
+                            findNavController().navigate(action)
+                        } ?: showSnackBar(R.string.err_post_detail)
+                    }
+                })
         binding.rvMyPostList.apply {
             layoutManager = gridLayoutManager
             adapter = myPostAdapter
@@ -87,7 +94,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     override fun setupObservers() {
         super.setupObservers()
         viewModel.myPosts.observe(this, Observer {
-            it?.run { myPostAdapter.appendData(this) }?:myPostAdapter.appendData(arrayListOf())
+            it?.run { myPostAdapter.appendData(this) } ?: myPostAdapter.appendData(arrayListOf())
         })
         viewModel.goToLogin.observe(this, Observer {
             if (it == true) {
@@ -100,7 +107,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         viewModel.myInfo.observe(this, Observer {
             binding.tvUserName.text = it.name
             binding.tvUserBio.text = it.tagline
-            binding.tvUserId.text = String.format(getString(R.string.user_id_formate),it.name)
+            binding.tvUserId.text = String.format(getString(R.string.user_id_formate), it.name)
             it.profilePicUrl.let {
                 binding.ivProfilePic.run {
                     Glide.with(this.context).load(it).placeholder(R.drawable.ic_person).into(this)

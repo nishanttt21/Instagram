@@ -8,6 +8,7 @@ import com.example.instagram.data.remote.NetworkService
 import com.example.instagram.data.remote.request.DummyRequest
 import com.example.instagram.data.remote.request.PostCreationRequest
 import com.example.instagram.data.remote.request.PostLikeModifyRequest
+import com.example.instagram.data.remote.response.GeneralResponse
 import com.example.instagram.data.remote.response.PostData
 import io.reactivex.Single
 import javax.inject.Inject
@@ -103,4 +104,7 @@ class PostRepositoryImpl @Inject constructor(
         networkService.fetchPostDetail(postId, user.id, user.accessToken).map {
             it.data
         }
+
+    override fun deleteMyPost(postId: String, user: User): Single<GeneralResponse> =
+        networkService.doPostDelete(postId, user.id, user.accessToken)
 }
