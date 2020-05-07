@@ -1,53 +1,60 @@
-package com.example.instagram.ui.home.posts
+package com.example.instagram.ui.home.postdetail
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.instagram.R
-import com.example.instagram.data.remote.response.PostData
-import com.example.instagram.databinding.ItemViewPostBinding
-import com.example.instagram.di.component.ViewHolderComponent
-import com.example.instagram.ui.base.BaseItemViewHolder
+import com.example.instagram.databinding.FragmentPostDetailBinding
+import com.example.instagram.di.component.FragmentComponent
+import com.example.instagram.ui.base.BaseFragment
+import com.example.instagram.ui.home.profiledetail.ProfileDetailFragment
 import com.example.instagram.utils.common.GlideHelper
 
-class PostItemViewHolder(parent: ViewGroup, val listener: HandlePostClicks) :
-    BaseItemViewHolder<ItemViewPostBinding, PostData, PostItemViewModel>(
-        ItemViewPostBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-    ) {
-    interface HandlePostClicks {
-        fun onPostClick(postId: String?)
-        fun onPostProfileClick(user: PostData.User?)
+/**
+ * Created by @author Deepak Dawade on 5/4/20.
+ * Copyright (c) 2020 deepakdawade.dd@gmail.com All rights reserved.
+ */
+class PostDetailFragment : BaseFragment<FragmentPostDetailBinding, PostDetailViewModel>() {
+
+    companion object {
+        const val POST_ID = "postId"
+        const val TAG = "PostDetailFragment"
     }
 
-    override fun injectDependencies(viewHolderComponent: ViewHolderComponent):
-            Unit = viewHolderComponent.inject(this)
+    val args: PostDetailFragmentArgs by navArgs()
+    override fun provideLayoutId(): Int = R.layout.fragment_post_detail
 
     override fun setupView() {
+        viewModel.getPostDetail(args.postId)
         binding.ivLike.setOnClickListener {
             viewModel.onLikeClick()
         }
-        binding.ivPost.setOnClickListener {
-            listener.onPostClick(viewModel.data.value?.id)
-        }
         binding.ivProfilePic.setOnClickListener {
-            listener.onPostProfileClick(viewModel.data.value?.creator)
+            navigateToProfileDetailFragment()
         }
         binding.tvName.setOnClickListener {
-            listener.onPostProfileClick(viewModel.data.value?.creator)
+            navigateToProfileDetailFragment()
         }
+
     }
 
+    private fun navigateToProfileDetailFragment() {
+        val bundle = bundleOf(
+            ProfileDetailFragment.USER_NAME to viewModel.name.value,
+            ProfileDetailFragment.USER_Profile to viewModel.profilePicUrl.value
+        )
+        findNavController().navigate(R.id.profileDetailFragment, bundle)
+    }
 
     override fun setupObservers() {
         super.setupObservers()
         viewModel.name.observe(this, Observer {
             binding.tvName.text = it
+            binding.toolbar.title = String.format(getString(R.string.user_id_formate), it)
         })
         viewModel.isLiked.observe(this, Observer {
             binding.ivLike.setImageResource(
@@ -100,4 +107,7 @@ class PostItemViewHolder(parent: ViewGroup, val listener: HandlePostClicks) :
             }
         })
     }
+
+    override fun injectDependencies(fragmentComponent: FragmentComponent) =
+        fragmentComponent.inject(this)
 }

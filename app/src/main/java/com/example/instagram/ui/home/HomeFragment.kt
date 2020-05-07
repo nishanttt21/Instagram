@@ -2,17 +2,20 @@ package com.example.instagram.ui.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
+import com.example.instagram.data.remote.response.PostData
 import com.example.instagram.databinding.FragmentHomeBinding
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
 import com.example.instagram.ui.home.posts.PostAdapter
 import com.example.instagram.ui.home.posts.PostItemViewHolder
+import com.example.instagram.ui.home.profiledetail.ProfileDetailFragment
 import com.example.instagram.ui.main.MainSharedViewModel
-import com.example.instagram.ui.post.postdetail.PostDetailActivity
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -41,16 +44,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun setupView() {
         postAdapter =
-            PostAdapter(lifecycle, ArrayList(), object : PostItemViewHolder.HandlePostClicks {
-                override fun onPostClick(postid: String) {
-                    startActivity(
-                        PostDetailActivity.getStartIntent(
-                            requireContext(),
-                            postId = postid
-                        )
-                    )
-                }
-            })
+                PostAdapter(lifecycle, ArrayList(), object : PostItemViewHolder.HandlePostClicks {
+                    override fun onPostClick(postId: String?) {
+                        if (postId.isNullOrEmpty()) {
+                            showSnackBar(R.string.err_post_detail)
+                        } else {
+                            val action = HomeFragmentDirections.actionHomeFragmentToPostDetailFragment(postId)
+                            findNavController().navigate(action)
+                        }
+                    }
+
+                    override fun onPostProfileClick(user: PostData.User?) {
+                        user?.let {
+                            val bundle = bundleOf(ProfileDetailFragment.USER_NAME to user.name,ProfileDetailFragment.USER_Profile to user.profilePicUrl)
+                            findNavController().navigate(R.id.profileDetailFragment,bundle)
+                        } ?: showSnackBar(R.string.err_user_detail)
+                    }
+                })
         binding.ivCamera.setOnClickListener {
             showSnackBar("Coming Soon")
         }

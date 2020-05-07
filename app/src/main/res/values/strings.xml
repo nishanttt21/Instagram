@@ -37,6 +37,8 @@
 
     <!--posts-->
     <string name="post_like_label">%1d Likes</string>
+    <string name="err_post_detail">could\'nt find this post</string>
+    <string name="err_user_detail">could\'nt find this user</string>
     <!-- Edit Profile-->
     <string name="logout">Logout</string>
     <string name="edit_profile_label">Edit Profile</string>
@@ -51,6 +53,10 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="try_again">Please try again</string>
+
+    <!--User-->
+    <string name="user_id_formate">\@%s</string>
+    <!--Profile-->
     <string name="edit_profile">Edit Profile</string>
     <string name="following_count">100\nFollowing</string>
     <string name="followers_count">50\nFollowers</string>
@@ -63,4 +69,6 @@
     <string name="side_sheet_behavior">com.example.instagram.ui.sidesheetdialog.SideSheetBehavior</string>
     <string name="menu_activity">Activity</string>
     <string name="menu_search">Search</string>
+    <string name="follow">Follow</string>
+    <string name="default_user_bio">I am passionate Android Developer and I am aim to reach high and Touch the sky.</string>
 </resources>

@@ -19,5 +19,5 @@ data class Me(
     var tagline: String,
     @Expose
     @SerializedName("profilePicUrl")
-    var profilePicUrl: String?
+    var profilePicUrl: String
 )

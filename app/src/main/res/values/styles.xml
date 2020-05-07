@@ -135,30 +135,4 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
     </style>
-
-    <style name="Animation.Design.SideSheetDialog" parent="Animation.AppCompat.Dialog">
-        <item name="android:windowEnterAnimation">@anim/side_sheet_slide_in</item>
-        <item name="android:windowExitAnimation">@anim/side_sheet_slide_out</item>
-    </style>
-
-
-    <style name="Theme.Me.SideSheetDialog" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowAnimationStyle">@style/Animation.Design.SideSheetDialog</item>
-        <item name="sideSheetStyle">@style/Widget.Me.SideSheet.Modal</item>
-    </style>
-
-    <style name="Theme.Me.Light.SideSheetDialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowAnimationStyle">@style/Animation.Design.SideSheetDialog</item>
-        <item name="sideSheetStyle">@style/Widget.Me.SideSheet.Modal</item>
-    </style>
-
-    <style name="Widget.Me.SideSheet.Modal" parent="android:Widget">
-        <item name="android:background">?android:attr/colorBackground</item>
-        <item name="android:elevation">16dp</item>
-        <item name="behavior_peekWidth">auto</item>
-        <item name="behavior_hideable">true</item>
-        <item name="behavior_skipCollapsed">false</item>
-    </style>
 </resources>

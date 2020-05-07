@@ -3,6 +3,7 @@ package com.example.instagram.di.module
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.data.repository.DummyRepository
+import com.example.instagram.data.repository.PostRepository
 import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.di.ActivityContext
 import com.example.instagram.di.TempDirectory
@@ -11,7 +12,7 @@ import com.example.instagram.ui.dummy.DummyViewModel
 import com.example.instagram.ui.loginsignup.LoginSignupViewModel
 import com.example.instagram.ui.main.MainSharedViewModel
 import com.example.instagram.ui.main.MainViewModel
-import com.example.instagram.ui.post.postdetail.PostDetailViewModel
+import com.example.instagram.ui.home.postdetail.PostDetailViewModel
 import com.example.instagram.ui.profile.editprofile.EditProfileViewModel
 import com.example.instagram.ui.splash.SplashViewModel
 import com.example.instagram.utils.ViewModelProviderFactory
@@ -32,7 +33,8 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
     fun provideMainViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository
     ): MainViewModel = ViewModelProvider(
         activity, ViewModelProviderFactory(
             MainViewModel::class
@@ -40,7 +42,8 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
             MainViewModel(
                 schedulerProvider,
                 compositeDisposable,
-                networkHelper
+                networkHelper,
+                userRepository
             )
         }
     ).get(MainViewModel::class.java)
@@ -116,18 +119,4 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
                 directory
             )
         }).get(EditProfileViewModel::class.java)
-
-    @Provides
-    fun providePostDetailViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
-    ): PostDetailViewModel = ViewModelProvider(
-        activity, ViewModelProviderFactory(PostDetailViewModel::class) {
-            PostDetailViewModel(
-                schedulerProvider,
-                compositeDisposable,
-                networkHelper
-            )
-        }).get(PostDetailViewModel::class.java)
 }

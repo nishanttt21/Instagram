@@ -39,7 +39,7 @@
             android:name=".ui.profile.editprofile.EditProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.post.postdetail.PostDetailActivity"
+            android:name="com.example.instagram.ui.home.postdetail.PostDetailFragment"
             android:screenOrientation="portrait" />
     </application>
 

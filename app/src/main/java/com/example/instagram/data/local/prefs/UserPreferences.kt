@@ -10,12 +10,13 @@ class UserPreferences @Inject constructor(private val prefs: SharedPreferences) 
     companion object {
         const val KEY_USER_ID = "PREF_KEY_USER_ID"
         const val KEY_USER_NAME = "PREF_KEY_USER_NAME"
+        const val KEY_USER_PROFILE = "PREF_KEY_USER_PROFILE"
         const val KEY_USER_EMAIL = "PREF_KEY_USER_EMAIL"
         const val KEY_ACCESS_TOKEN = "PREF_KEY_ACCESS_TOKEN"
     }
 
     fun getUserId(): String? =
-        prefs.getString(KEY_USER_ID, null)
+        prefs.getString(KEY_USER_ID, "")
 
     fun setUserId(userId: String) =
         prefs.edit().putString(KEY_USER_ID, userId).apply()
@@ -24,7 +25,7 @@ class UserPreferences @Inject constructor(private val prefs: SharedPreferences) 
         prefs.edit().remove(KEY_USER_ID).apply()
 
     fun getUserName(): String? =
-        prefs.getString(KEY_USER_NAME, null)
+        prefs.getString(KEY_USER_NAME, "")
 
     fun setUserName(userName: String) =
         prefs.edit().putString(KEY_USER_NAME, userName).apply()
@@ -33,16 +34,26 @@ class UserPreferences @Inject constructor(private val prefs: SharedPreferences) 
         prefs.edit().remove(KEY_USER_NAME).apply()
 
     fun getUserEmail(): String? =
-        prefs.getString(KEY_USER_EMAIL, null)
+        prefs.getString(KEY_USER_EMAIL, "")
 
     fun setUserEmail(email: String) =
         prefs.edit().putString(KEY_USER_EMAIL, email).apply()
+
+    fun getUserProfile(): String? =
+        prefs.getString(KEY_USER_PROFILE, "")
+
+    fun setUserProfilePic(profilePicUrl: String) =
+        prefs.edit().putString(KEY_USER_PROFILE, profilePicUrl).apply()
+
+    fun removeUserProfile() =
+        prefs.edit().remove(KEY_USER_PROFILE).apply()
+
 
     fun removeUserEmail() =
         prefs.edit().remove(KEY_USER_EMAIL).apply()
 
     fun getAccessToken(): String? =
-        prefs.getString(KEY_ACCESS_TOKEN, null)
+        prefs.getString(KEY_ACCESS_TOKEN, "")
 
     fun setAccessToken(token: String) =
         prefs.edit().putString(KEY_ACCESS_TOKEN, token).apply()

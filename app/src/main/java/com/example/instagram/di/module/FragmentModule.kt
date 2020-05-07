@@ -2,6 +2,7 @@ package com.example.instagram.di.module
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.data.repository.DummyRepository
 import com.example.instagram.data.repository.PhotoRepository
@@ -13,6 +14,8 @@ import com.example.instagram.ui.base.BaseFragment
 import com.example.instagram.ui.dummies.DummiesAdapter
 import com.example.instagram.ui.dummies.DummiesViewModel
 import com.example.instagram.ui.home.HomeViewModel
+import com.example.instagram.ui.home.postdetail.PostDetailViewModel
+import com.example.instagram.ui.home.profiledetail.ProfileDetailViewModel
 import com.example.instagram.ui.loginsignup.login.signup.SignUpViewModel
 import com.example.instagram.ui.loginsignup.login.signup.login.LoginViewModel
 import com.example.instagram.ui.main.MainSharedViewModel
@@ -96,6 +99,8 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
 
     @Provides
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(fragment.context)
+    @Provides
+    fun provideGridLayoutManager(): GridLayoutManager = GridLayoutManager(fragment.context,3)
 
     @Provides
     fun provideDummiesViewModel(
@@ -143,7 +148,8 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
         networkHelper: NetworkHelper,
-        userRepository: UserRepository
+        userRepository: UserRepository,
+        postRepository: PostRepository
     ): ProfileViewModel =
         ViewModelProvider(fragment,
             ViewModelProviderFactory(ProfileViewModel::class) {
@@ -151,7 +157,10 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
                     schedulerProvider,
                     compositeDisposable,
                     networkHelper,
-                    userRepository
+                    userRepository,
+                    postRepository,
+                    ArrayList(),
+                    PublishProcessor.create()
                 )
             }
         ).get(ProfileViewModel::class.java)
@@ -206,6 +215,38 @@ class FragmentModule(private val fragment: BaseFragment<*, *>) {
             )
         }
     ).get(SearchViewModel::class.java)
+
+    @Provides
+    fun providePostDetailViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        postRepository: PostRepository,
+        userRepository: UserRepository
+    ): PostDetailViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(PostDetailViewModel::class) {
+            PostDetailViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                postRepository,
+                userRepository
+            )
+        }).get(PostDetailViewModel::class.java)
+
+    @Provides
+    fun provideProfileDetailViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper
+    ): ProfileDetailViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(ProfileDetailViewModel::class) {
+            ProfileDetailViewModel(
+                compositeDisposable,
+                schedulerProvider,
+                networkHelper
+            )
+        }).get(ProfileDetailViewModel::class.java)
 
     @Provides
     fun provideDummiesAdapter() = DummiesAdapter(fragment.lifecycle, ArrayList())

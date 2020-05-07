@@ -10,7 +10,6 @@ import com.example.instagram.R
 import com.example.instagram.databinding.ActivityEditProfileBinding
 import com.example.instagram.di.component.ActivityComponent
 import com.example.instagram.ui.base.BaseActivity
-import timber.log.Timber
 import java.io.FileNotFoundException
 
 class EditProfileActivity : BaseActivity<ActivityEditProfileBinding, EditProfileViewModel>() {
@@ -36,14 +35,11 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding, EditProfile
             user?.run {
                 binding.apply {
                     name = etName.text.toString()
-                    email = etEmail.text.toString()
                     tagline = etBio.text.toString()
                     viewModel.userProfilePic.value?.let { url ->
                         profilePicUrl = url
                     }
                 }
-
-                viewModel.updateData(this)
             }
         }
         binding.closeBtn.setOnClickListener {
@@ -97,12 +93,9 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding, EditProfile
                 RESULT_GALLERY_PICK -> {
                     try {
                         intent?.data?.let {
-                            this.contentResolver?.openInputStream(it)?.run {
-                                viewModel.onGalleryImageSelected(this)
-                            }
+                            viewModel.onGalleryImageSelected(it)
                         } ?: showMessage(R.string.try_again)
                     } catch (e: FileNotFoundException) {
-                        Timber.e(e)
                         showMessage(R.string.try_again)
                     }
                 }

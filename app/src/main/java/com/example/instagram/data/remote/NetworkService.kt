@@ -1,5 +1,6 @@
 package com.example.instagram.data.remote
 
+import com.example.instagram.data.model.Dummy
 import com.example.instagram.data.model.Me
 import com.example.instagram.data.model.Post
 import com.example.instagram.data.remote.request.*
@@ -18,7 +19,7 @@ interface NetworkService {
     fun doDummyCall(
         @Body request: DummyRequest,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY // default value set when Networking create is called
-    ): Single<DummyResponse>
+    ): Single<MyResponse<List<Dummy>>>
 
     //1.Signup call
     @POST(Endpoints.SIGN_UP)
@@ -102,8 +103,8 @@ interface NetworkService {
     //11.My Post List
     @GET(Endpoints.MY_POST_LIST)
     fun getMyPostList(
-        @Header(Networking.HEADER_USER_ID) userId: String, // pass using UserRepository
-        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using UserRepository
+        @Header(Networking.HEADER_USER_ID) userId: String, // pass using PostRepository
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using PostRepository
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY // default value set when Networking create is called
     ): Single<MyResponse<List<Post>>>
 
@@ -112,8 +113,8 @@ interface NetworkService {
     fun doHomePostListCall(
         @Query("firstPostId") firstPostId: String?,
         @Query("lastPostId") lastPostId: String?,
-        @Header(Networking.HEADER_USER_ID) userId: String, // pass using UserRepository
-        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using UserRepository
+        @Header(Networking.HEADER_USER_ID) userId: String, // pass using PostRepository
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String, // pass using PostRepository
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY // default value set when Networking create is called
     ): Single<MyResponse<List<PostData>>>
 

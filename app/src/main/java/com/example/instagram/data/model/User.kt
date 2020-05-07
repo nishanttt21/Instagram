@@ -24,5 +24,5 @@ data class User(
     var tagline: String = "",
     @Expose
     @SerializedName("profilePicUrl")
-    var profilePicUrl: String? = null
+    var profilePicUrl: String=""
 )

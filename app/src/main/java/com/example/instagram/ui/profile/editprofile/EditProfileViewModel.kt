@@ -1,21 +1,17 @@
 package com.example.instagram.ui.profile.editprofile
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.instagram.R
 import com.example.instagram.data.model.Me
 import com.example.instagram.data.model.User
 import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.ui.base.BaseViewModel
-import com.example.instagram.utils.common.FileUtils
-import com.example.instagram.utils.common.Resource
 import com.example.instagram.utils.network.NetworkHelper
 import com.example.instagram.utils.rx.SchedulerProvider
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.io.InputStream
 
 class EditProfileViewModel(
     schedulerProvider: SchedulerProvider,
@@ -51,9 +47,7 @@ class EditProfileViewModel(
                         _userBio.postValue(tagline)
                         _userProfilePic.postValue(profilePicUrl)
                     }
-                }, {
-                    handleNetworkError(it)
-                })
+                }, { handleNetworkError(it) })
         )
     }
 
@@ -79,22 +73,7 @@ class EditProfileViewModel(
         )
     }
 
-    fun onGalleryImageSelected(inputStream: InputStream) {
-        compositeDisposable.add(
-            Single.fromCallable {
-                FileUtils.saveInputStreamToFile(inputStream, directory, "gallery_img_temp", 500)
-            }.subscribeOn(Schedulers.io()).subscribe({
-                if (it != null) {
-                    FileUtils.getImageSize(it)?.run {
-                        _userProfilePic.postValue(it.path)
-                    }
-                } else {
-                    messageStringId.postValue(Resource.error(R.string.try_again))
-                }
-            }, {
-                messageStringId.postValue(Resource.error(R.string.try_again))
-
-            })
-        )
+    fun onGalleryImageSelected(imageUri: Uri) {
+        _userProfilePic.value = imageUri.toString()
     }
 }

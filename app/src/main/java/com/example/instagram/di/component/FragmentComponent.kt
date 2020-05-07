@@ -4,6 +4,8 @@ import com.example.instagram.di.FragmentScope
 import com.example.instagram.di.module.FragmentModule
 import com.example.instagram.ui.dummies.DummiesFragment
 import com.example.instagram.ui.home.HomeFragment
+import com.example.instagram.ui.home.postdetail.PostDetailFragment
+import com.example.instagram.ui.home.profiledetail.ProfileDetailFragment
 import com.example.instagram.ui.loginsignup.login.LoginFragment
 import com.example.instagram.ui.loginsignup.signup.SignUpFragment
 import com.example.instagram.ui.myactivity.MyActivityFragment
@@ -23,4 +25,7 @@ interface FragmentComponent {
     fun inject(fragment: SignUpFragment)
     fun inject(fragment: SearchFragment)
     fun inject(fragment: MyActivityFragment)
+    fun inject(fragment: PostDetailFragment)
+    fun inject(fragment: ProfileDetailFragment)
 }
+

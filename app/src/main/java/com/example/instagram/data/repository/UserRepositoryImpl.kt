@@ -23,12 +23,14 @@ class UserRepositoryImpl @Inject constructor(
         userPreferences.setUserId(user.id)
         userPreferences.setUserName(user.name)
         userPreferences.setUserEmail(user.email)
+        userPreferences.setUserProfilePic(user.profilePicUrl)
         userPreferences.setAccessToken(user.accessToken)
     }
 
     override fun removeCurrentUser() {
         userPreferences.removeUserId()
         userPreferences.removeUserName()
+        userPreferences.removeUserProfile()
         userPreferences.removeUserEmail()
         userPreferences.removeAccessToken()
     }
@@ -39,9 +41,10 @@ class UserRepositoryImpl @Inject constructor(
         val userName = userPreferences.getUserName()
         val userEmail = userPreferences.getUserEmail()
         val accessToken = userPreferences.getAccessToken()
+        val profilePic = userPreferences.getUserProfile()
 
-        return if (userId !== null && userName != null && userEmail != null && accessToken != null)
-            User(userId, userName, userEmail, accessToken)
+        return if (userId !== null && userName != null && userEmail != null && accessToken != null && profilePic != null)
+            User(userId, userName, userEmail, accessToken,profilePic)
         else
             null
     }
@@ -84,13 +87,12 @@ class UserRepositoryImpl @Inject constructor(
     override fun fetchMyInfo():
             Single<Me> =
         networkService.fetchMyInfo(
-            accessToken = getCurrentUser()!!.accessToken,
-            userId = getCurrentUser()!!.id
+            accessToken = userPreferences.getAccessToken()!!,
+            userId = userPreferences.getUserId()!!
         ).map { it.data }
 
     override fun updateMyInfo(me: Me):
-            Single<GeneralResponse> = networkService.updateMyInfo(
-        me
-        , accessToken = userPreferences.getAccessToken()!!, userId = userPreferences.getUserId()!!
+            Single<GeneralResponse> = networkService.updateMyInfo(me,
+        accessToken = userPreferences.getAccessToken()!!, userId = userPreferences.getUserId()!!
     )
 }

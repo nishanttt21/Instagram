@@ -2,6 +2,7 @@ package com.example.instagram.data.repository
 
 import com.example.instagram.data.local.DatabaseService
 import com.example.instagram.data.model.Dummy
+import com.example.instagram.data.model.Post
 import com.example.instagram.data.model.User
 import com.example.instagram.data.remote.NetworkService
 import com.example.instagram.data.remote.request.DummyRequest
@@ -20,6 +21,13 @@ class PostRepositoryImpl @Inject constructor(
 
     override fun fetchDummy(id: String): Single<List<Dummy>> =
         networkService.doDummyCall(DummyRequest(id)).map { it.data }
+
+    override fun fetchMyPostListCall(user: User):
+            Single<List<Post>> =
+        networkService.getMyPostList(userId = user.id, accessToken = user.accessToken)
+            .map {
+                it.data
+            }
 
     override fun fetchHomePostListCall(firstPostId: String?, lastPostId: String?, user: User):
             Single<List<PostData>> =
@@ -89,4 +97,10 @@ class PostRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override fun getPostDetail(postId: String, user: User):
+            Single<PostData> =
+        networkService.fetchPostDetail(postId, user.id, user.accessToken).map {
+            it.data
+        }
 }
