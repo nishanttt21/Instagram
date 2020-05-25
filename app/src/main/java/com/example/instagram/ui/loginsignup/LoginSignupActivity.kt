@@ -13,7 +13,8 @@ import com.example.instagram.ui.base.BaseActivity
 class LoginSignupActivity : BaseActivity<ActivityLoginSignupBinding, LoginSignupViewModel>() {
     override fun provideLayoutId(): Int = R.layout.activity_login_signup
 
-    override fun setupView(savedInstanceState: Bundle?) {//:TODO("Not yet implemented")
+    override fun setupView(savedInstanceState: Bundle?) {
+        //:TODO("Not yet implemented")
     }
 
     override fun injectDependencies(activityComponent: ActivityComponent) =

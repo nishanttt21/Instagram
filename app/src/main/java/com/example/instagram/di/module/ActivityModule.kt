@@ -9,15 +9,17 @@ import com.example.instagram.di.ActivityContext
 import com.example.instagram.di.TempDirectory
 import com.example.instagram.ui.base.BaseActivity
 import com.example.instagram.ui.dummy.DummyViewModel
+import com.example.instagram.ui.home.profiledetail.ProfileDetailViewModel
 import com.example.instagram.ui.loginsignup.LoginSignupViewModel
 import com.example.instagram.ui.main.MainSharedViewModel
 import com.example.instagram.ui.main.MainViewModel
-import com.example.instagram.ui.home.postdetail.PostDetailViewModel
+import com.example.instagram.ui.postdetail.PostDetailViewModel
 import com.example.instagram.ui.profile.editprofile.EditProfileViewModel
 import com.example.instagram.ui.splash.SplashViewModel
 import com.example.instagram.utils.ViewModelProviderFactory
 import com.example.instagram.utils.network.NetworkHelper
 import com.example.instagram.utils.rx.SchedulerProvider
+import com.mindorks.paracamera.Camera
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -28,6 +30,34 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
     @ActivityContext
     @Provides
     fun provideContext(): Context = activity
+    @Provides
+    fun provideCamera(): Camera = Camera.Builder()
+        .resetToCorrectOrientation(true)
+        .setTakePhotoRequestCode(1001)
+        .setDirectory("temp")
+        .setName("camera_temp_image")
+        .setImageFormat(Camera.IMAGE_JPEG)
+        .setCompression(75)
+        .setImageHeight(500)
+        .build(activity)
+
+    @Provides
+    fun providePostDetailViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        postRepository: PostRepository,
+        userRepository: UserRepository
+    ): PostDetailViewModel = ViewModelProvider(
+        activity, ViewModelProviderFactory(PostDetailViewModel::class) {
+            PostDetailViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                postRepository,
+                userRepository
+            )
+        }).get(PostDetailViewModel::class.java)
 
     @Provides
     fun provideMainViewModel(
@@ -119,4 +149,17 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
                 directory
             )
         }).get(EditProfileViewModel::class.java)
+    @Provides
+    fun provideProfileDetailViewModel(
+            schedulerProvider: SchedulerProvider,
+            compositeDisposable: CompositeDisposable,
+            networkHelper: NetworkHelper
+    ): ProfileDetailViewModel = ViewModelProvider(
+            activity, ViewModelProviderFactory(ProfileDetailViewModel::class) {
+        ProfileDetailViewModel(
+                compositeDisposable,
+                schedulerProvider,
+                networkHelper
+        )
+    }).get(ProfileDetailViewModel::class.java)
 }

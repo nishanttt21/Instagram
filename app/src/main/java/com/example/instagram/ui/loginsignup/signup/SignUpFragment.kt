@@ -1,5 +1,6 @@
 package com.example.instagram.ui.loginsignup.signup
 
+import android.content.Intent
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
@@ -9,6 +10,7 @@ import com.example.instagram.databinding.FragmentSignupBinding
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
 import com.example.instagram.ui.loginsignup.login.signup.SignUpViewModel
+import com.example.instagram.ui.main.MainActivity
 import com.example.instagram.utils.common.Status
 
 class SignUpFragment : BaseFragment<FragmentSignupBinding, SignUpViewModel>() {
@@ -38,8 +40,8 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding, SignUpViewModel>() {
         super.setupObservers()
         viewModel.launchMain.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                findNavController().navigateUp()
-
+                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                requireActivity().finish()
             }
         })
         viewModel.emailField.observe(this, Observer {

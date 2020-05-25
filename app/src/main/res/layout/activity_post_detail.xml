@@ -1,21 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    tools:title="deepak.dawade"
+                    app:navigationIcon="@drawable/ic_arrow_back"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="6dp"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:cardUseCompatPadding="false">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_userId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="On Progress"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="16dp">
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        style="@style/AppTheme.Body1"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="8dp"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        app:layout_constraintEnd_toStartOf="@id/ivPostOptions"
+                        app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Janishar Ali" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivPostOptions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_more_vert"
+                        android:layout_margin="8dp"
+                        app:layout_constraintTop_toTopOf="@id/tvName"
+                        app:layout_constraintStart_toEndOf="@id/tvName"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivProfilePic"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="16dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription"
+                        tools:src="@drawable/ic_profile_selected" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivPost"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvName"
+                        tools:ignore="ContentDescription"
+                        tools:src="@drawable/ic_photo" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivLike"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:padding="6dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                        tools:ignore="ContentDescription"
+                        tools:src="@drawable/ic_heart_unselected" />
+
+                    <TextView
+                        android:id="@+id/tvLikesCount"
+                        style="@style/AppTheme.Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toEndOf="@+id/ivLike"
+                        app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                        tools:text="@string/post_like_label" />
+
+                    <TextView
+                        android:id="@+id/tvTime"
+                        style="@style/AppTheme.Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:textColor="@color/colorGrey"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                        tools:text="4 Hrs ago" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

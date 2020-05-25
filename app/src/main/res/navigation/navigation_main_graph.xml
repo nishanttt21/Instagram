@@ -9,24 +9,12 @@
         android:id="@+id/homeFragment"
         android:name="com.example.instagram.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_postDetailFragment"
-            app:destination="@id/postDetailFragment"
-            app:launchSingleTop="true"
-            />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.instagram.ui.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_postDetailFragment"
-            app:destination="@id/postDetailFragment"
-            app:launchSingleTop="true"
-            />
-    </fragment>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/photoFragment"
         android:name="com.example.instagram.ui.photo.PhotoFragment"
@@ -34,23 +22,12 @@
         tools:layout="@layout/fragment_photo" />
     <fragment
         android:id="@+id/searchFragment"
+        tools:layout="@layout/fragment_search"
         android:name="com.example.instagram.ui.search.SearchFragment"
         android:label="SearchFragment" />
     <fragment
         android:id="@+id/myActivityFragment"
+        tools:layout="@layout/fragment_my_activity"
         android:name="com.example.instagram.ui.myactivity.MyActivityFragment"
         android:label="MyActivityFragment" />
-    <fragment
-        android:id="@+id/postDetailFragment"
-        android:name="com.example.instagram.ui.home.postdetail.PostDetailFragment"
-        android:label="PostDetailFragment"
-        >
-        <argument
-            android:name="postId"
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/profileDetailFragment"
-        android:name="com.example.instagram.ui.home.profiledetail.ProfileDetailFragment"
-        android:label="ProfileDetailFragment" />
 </navigation>

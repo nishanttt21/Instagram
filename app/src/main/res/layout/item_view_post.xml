@@ -21,62 +21,64 @@
             android:paddingTop="8dp"
             android:paddingBottom="16dp">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="10dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tvName"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/ic_profile_selected" />
+
             <TextView
                 android:id="@+id/tvName"
                 style="@style/AppTheme.Body1"
                 android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:lines="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Janishar Ali" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivProfilePic"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="16dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription"
-                tools:src="@drawable/ic_profile_selected" />
-
+                tools:text="Deepak Dawade" />
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivPost"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="8dp"
-                android:scaleType="center"
+                app:layout_constraintDimensionRatio="7:5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvName"
-                tools:ignore="ContentDescription"
-                tools:src="@drawable/ic_photo" />
+                tools:ignore="ContentDescription" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivLike"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:padding="6dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                app:layout_constraintBottom_toBottomOf="parent"
                 tools:ignore="ContentDescription"
-                tools:src="@drawable/ic_heart_unselected" />
+                tools:src="@drawable/ic_heart_selected" />
 
             <TextView
                 android:id="@+id/tvLikesCount"
                 style="@style/AppTheme.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="10dp"
+                android:layout_margin="10dp"
                 app:layout_constraintStart_toEndOf="@+id/ivLike"
                 app:layout_constraintTop_toBottomOf="@+id/ivPost"
                 tools:text="@string/post_like_label" />

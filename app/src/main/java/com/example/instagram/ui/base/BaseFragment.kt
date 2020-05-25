@@ -43,12 +43,8 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : BaseViewModel> : Fragment
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, provideLayoutId(), container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         setupView()
+        return binding.root
     }
 
     protected open fun setupObservers() {

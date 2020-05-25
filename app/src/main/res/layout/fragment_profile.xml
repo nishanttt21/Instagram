@@ -32,12 +32,12 @@
                         android:id="@+id/tv_userId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="deepak.dawade"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="deepak.dawade" />
 
                     <ImageView
                         android:id="@+id/iv_options"
@@ -47,7 +47,8 @@
                         android:src="@drawable/ic_option_menu"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -66,22 +67,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            tools:text="Deepak Dawade"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="#757575"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@id/tvUserBio"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
-            app:layout_constraintTop_toBottomOf="@id/ivProfilePic" />
+            app:layout_constraintTop_toBottomOf="@id/ivProfilePic"
+            tools:text="Deepak Dawade" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvUserBio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto_medium"
             android:singleLine="false"
-            tools:text="I am passionate  Android Developer and I am aim to reach high and Touch the sky."
+            android:textColor="#757575"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
-            app:layout_constraintTop_toBottomOf="@id/tvUserName" />
+            app:layout_constraintTop_toBottomOf="@id/tvUserName"
+            tools:text="I am passionate  Android Developer and I am aim to reach high and Touch the sky." />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPostCount"
@@ -132,6 +138,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:background="@color/colorWhite"
             android:text="@string/edit_profile"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
@@ -156,8 +163,8 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:background="@color/colorWhite"
-            android:visibility="gone"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appBarLayout">
@@ -236,17 +243,25 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="24sp" />
         </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMyPostList"
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintTop_toBottomOf="@id/btnEditProfile"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintTop_toBottomOf="@id/btnEditProfile" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

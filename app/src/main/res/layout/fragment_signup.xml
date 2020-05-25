@@ -2,9 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,25 +12,28 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/instagramLogo"
             android:layout_width="0dp"
-            android:layout_height="58dp"
-            android:layout_marginTop="64dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="17:5"
             android:contentDescription="@string/instagram_logo"
             android:src="@drawable/instagram_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/name_layout"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
             android:hint="@string/full_name_hint"
             app:boxStrokeColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/instagramLogo">
+            app:layout_constraintTop_toBottomOf="@id/instagramLogo"
+            app:layout_constraintBottom_toTopOf="@id/email_layout"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_name"
@@ -50,12 +50,13 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:hint="@string/email_field_hint"
             app:boxStrokeColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_layout">
+            app:layout_constraintTop_toBottomOf="@id/name_layout"
+            app:layout_constraintBottom_toTopOf="@id/password_layout"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
@@ -72,13 +73,13 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
             android:hint="@string/password_field_hint"
             app:boxStrokeColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_layout">
+            app:layout_constraintTop_toBottomOf="@id/email_layout"
+            app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_password"
@@ -101,17 +102,20 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password_layout" />
+            app:layout_constraintTop_toBottomOf="@id/password_layout"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            />
 
         <View
             android:id="@+id/divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="45dp"
             android:background="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_sign_up" />
+            app:layout_constraintTop_toBottomOf="@id/btn_sign_up"
+            app:layout_constraintBottom_toTopOf="@id/loginWithEmailBtn"
+            />
 
         <TextView
             android:id="@+id/orTextView"
@@ -132,12 +136,13 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="@string/login_with_email"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
         <ProgressBar
             android:id="@+id/pb_loading"

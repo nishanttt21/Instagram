@@ -39,9 +39,7 @@ class LoginViewModel(
     val passwordValidation: LiveData<Resource<Int>> =
         filterValidation(Validator.Validation.Field.PASSWORD)
 
-    override fun onCreate() {
-//        TODO("Not yet implemented")
-    }
+    override fun onCreate() {}
 
     private fun filterValidation(field: Validator.Validation.Field):
             LiveData<Resource<Int>> = Transformations.map(_validationList) { validations ->

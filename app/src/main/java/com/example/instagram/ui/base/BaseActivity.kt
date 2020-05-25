@@ -12,6 +12,7 @@ import com.example.instagram.InstagramApp
 import com.example.instagram.di.component.ActivityComponent
 import com.example.instagram.di.component.DaggerActivityComponent
 import com.example.instagram.di.module.ActivityModule
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 abstract class BaseActivity<DB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
@@ -56,4 +57,9 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     protected abstract fun setupView(savedInstanceState: Bundle?)
 
     protected abstract fun injectDependencies(activityComponent: ActivityComponent)
+
+    fun showSnackBar(message: String) =
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+
+    fun showSnackBar(@StringRes resId: Int) = showSnackBar(getString(resId))
 }

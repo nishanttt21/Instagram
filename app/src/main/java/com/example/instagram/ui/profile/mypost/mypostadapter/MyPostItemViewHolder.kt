@@ -1,4 +1,4 @@
-package com.example.instagram.ui.profile.mypost
+package com.example.instagram.ui.profile.mypost.mypostadapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -31,7 +31,7 @@ class MyPostItemViewHolder(parent: ViewGroup, val listener: HandlePostItemClicks
     override fun setupObservers() {
         super.setupObservers()
         viewModel.image.observe(this, Observer {
-            Glide.with(binding.ivPost.context).load(it).placeholder(R.drawable.ic_person)
+            Glide.with(binding.ivPost.context).load(it).placeholder(R.drawable.ic_photo)
                 .into(binding.ivPost)
         })
     }

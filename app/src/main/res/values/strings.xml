@@ -72,4 +72,6 @@
     <string name="follow">Follow</string>
     <string name="default_user_bio">I am passionate Android Developer and I am aim to reach high and Touch the sky.</string>
     <string name="delete">Delete</string>
+    <string name="click_image_again">Click Image Again</string>
+    <string name="no_post">No Post</string>
 </resources>

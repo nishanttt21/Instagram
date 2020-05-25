@@ -2,17 +2,21 @@ package com.example.instagram.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.instagram.R
 import com.example.instagram.data.model.User
 import com.example.instagram.data.remote.response.PostData
 import com.example.instagram.data.repository.PostRepository
 import com.example.instagram.data.repository.UserRepository
 import com.example.instagram.ui.base.BaseViewModel
+import com.example.instagram.utils.common.FileUtils
 import com.example.instagram.utils.common.Resource
 import com.example.instagram.utils.network.NetworkHelper
 import com.example.instagram.utils.rx.SchedulerProvider
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 
 class HomeViewModel(
     compositeDisposable: CompositeDisposable,
@@ -90,5 +94,20 @@ class HomeViewModel(
                 allPostList
             )
         }))
+    }
+    fun onCameraImageTaken(cameraImageProcessor: () -> String) {
+        compositeDisposable.add(
+            Single.fromCallable { cameraImageProcessor() }
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    File(it).apply {
+                        FileUtils.getImageSize(this)?.let { size ->
+                            messageString.postValue(Resource.success("Clicked"))
+                        }
+                    }
+                }, {
+                    handleNetworkError(it)
+                })
+        )
     }
 }

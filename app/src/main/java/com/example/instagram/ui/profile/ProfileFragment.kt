@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.instagram.R
 import com.example.instagram.databinding.FragmentProfileBinding
@@ -14,9 +12,8 @@ import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
 import com.example.instagram.ui.loginsignup.LoginSignupActivity
 import com.example.instagram.ui.profile.editprofile.EditProfileActivity
-import com.example.instagram.ui.profile.mypost.MyPostAdapter
-import com.example.instagram.ui.profile.mypost.MyPostItemViewHolder
-import javax.inject.Inject
+import com.example.instagram.ui.profile.profileadapter.ProfilePagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
     companion object {
@@ -31,39 +28,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         }
     }
 
-    @Inject
-    lateinit var gridLayoutManager: GridLayoutManager
-
-    lateinit var myPostAdapter: MyPostAdapter
 
     override fun provideLayoutId(): Int = R.layout.fragment_profile
     override fun onStart() {
         super.onStart()
         viewModel.fetchMyInfo()
-        viewModel.fetchMyPostList()
     }
 
     override fun setupView() {
-        myPostAdapter =
-            MyPostAdapter(
-                lifecycle,
-                ArrayList(),
-                object : MyPostItemViewHolder.HandlePostItemClicks {
-                    override fun onPostClick(postId: String?) {
-                        postId?.let {
-                            val action =
-                                ProfileFragmentDirections.actionProfileFragmentToPostDetailFragment(
-                                    postId
-                                )
-                            findNavController().navigate(action)
-                        } ?: showSnackBar(R.string.err_post_detail)
-                    }
-                })
-        binding.rvMyPostList.apply {
-            layoutManager = gridLayoutManager
-            adapter = myPostAdapter
-        }
-
         binding.ivOptions.setOnClickListener {
             if (binding.profileOptionLayout.isVisible)
                 binding.profileOptionLayout.visibility = View.GONE
@@ -72,6 +44,20 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         binding.logoutOption.setOnClickListener {
             viewModel.onLogoutClick()
         }
+        binding.pager.adapter = ProfilePagerAdapter(this)
+        TabLayoutMediator(binding.tabLayout,binding.pager){tab, position ->
+            when(position){
+                0-> {
+                    tab.icon = requireContext().getDrawable(R.drawable.ic_photo)
+                    tab.text = "Posts"
+
+                }
+                1->{
+                    tab.icon = requireContext().getDrawable(R.drawable.ic_bookmark)
+                    tab.text = "Dummy"
+                }
+            }
+        }.attach()
 
         binding.rootLayout.setOnClickListener {
             if (binding.profileOptionLayout.isVisible)
@@ -93,9 +79,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.myPosts.observe(this, Observer {
-            it?.run { myPostAdapter.appendData(this) } ?: myPostAdapter.appendData(arrayListOf())
-        })
         viewModel.goToLogin.observe(this, Observer {
             if (it == true) {
                 startActivity(Intent(requireActivity(), LoginSignupActivity::class.java))

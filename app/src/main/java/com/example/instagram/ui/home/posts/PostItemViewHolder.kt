@@ -1,5 +1,6 @@
 package com.example.instagram.ui.home.posts
 
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
@@ -22,7 +23,7 @@ class PostItemViewHolder(parent: ViewGroup, val listener: HandlePostClicks) :
     ) {
     interface HandlePostClicks {
         fun onPostClick(postId: String?)
-        fun onPostProfileClick(user: PostData.User?)
+        fun onProfileClick(user: PostData.User?)
     }
 
     override fun injectDependencies(viewHolderComponent: ViewHolderComponent):
@@ -36,10 +37,10 @@ class PostItemViewHolder(parent: ViewGroup, val listener: HandlePostClicks) :
             listener.onPostClick(viewModel.data.value?.id)
         }
         binding.ivProfilePic.setOnClickListener {
-            listener.onPostProfileClick(viewModel.data.value?.creator)
+            listener.onProfileClick(viewModel.data.value?.creator)
         }
         binding.tvName.setOnClickListener {
-            listener.onPostProfileClick(viewModel.data.value?.creator)
+            listener.onProfileClick(viewModel.data.value?.creator)
         }
     }
 

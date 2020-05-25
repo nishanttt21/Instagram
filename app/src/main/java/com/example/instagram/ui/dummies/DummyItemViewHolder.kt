@@ -28,7 +28,7 @@ class DummyItemViewHolder(parent: ViewGroup) :
         })
 
         viewModel.url.observe(this, Observer {
-            Glide.with(itemView.context).load(it).into(binding.ivDummy)
+            Glide.with(binding.ivDummy).load(it).into(binding.ivDummy)
         })
     }
 

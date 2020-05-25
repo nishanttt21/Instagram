@@ -66,7 +66,8 @@ dependencies {
     implementation "com.google.android.material:material:$material_design_version"
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$support_library_version"
-
+    //ViewPager
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
     // CardView
     implementation "androidx.cardview:cardview:1.0.0"
     //Design

@@ -1,39 +1,53 @@
-package com.example.instagram.ui.home.postdetail
+package com.example.instagram.ui.postdetail
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.util.TypedValue
 import android.view.*
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.instagram.R
-import com.example.instagram.databinding.FragmentPostDetailBinding
-import com.example.instagram.di.component.FragmentComponent
-import com.example.instagram.ui.base.BaseFragment
-import com.example.instagram.ui.home.profiledetail.ProfileDetailFragment
+import com.example.instagram.databinding.ActivityPostDetailBinding
+import com.example.instagram.di.component.ActivityComponent
+import com.example.instagram.ui.base.BaseActivity
+import com.example.instagram.ui.home.profiledetail.ProfileDetailActivity
 import com.example.instagram.utils.common.GlideHelper
 
 /**
  * Created by @author Deepak Dawade on 5/4/20.
  * Copyright (c) 2020 deepakdawade.dd@gmail.com All rights reserved.
  */
-class PostDetailFragment : BaseFragment<FragmentPostDetailBinding, PostDetailViewModel>() {
+class PostDetailActivity : BaseActivity<ActivityPostDetailBinding, PostDetailViewModel>() {
 
     companion object {
-        const val POST_ID = "postId"
-        const val TAG = "PostDetailFragment"
+        private const val POST_ID = "postId"
+        private const val TAG = "PostDetailFragment"
+        fun getStartIntent(
+            context: Context, postId: String
+        ): Intent {
+            return Intent(context, PostDetailActivity::class.java).apply {
+                putExtra(POST_ID, postId)
+            }
+        }
     }
 
-    val args: PostDetailFragmentArgs by navArgs()
-    val postId :String by lazy { args.postId }
-    override fun provideLayoutId(): Int = R.layout.fragment_post_detail
-
-    override fun setupView() {
+    val postId :String by lazy { intent.getStringExtra(POST_ID) }
+    override fun provideLayoutId(): Int = R.layout.activity_post_detail
+private fun convertToPx(value:Int):Int{
+    val r = resources
+    val px = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,value.toFloat(),r.displayMetrics
+    ).toInt()
+    return px
+}
+    override fun setupView(savedInstanceState: Bundle?) {
         registerForContextMenu(binding.ivPost)
         viewModel.getPostDetail(postId)
+        binding.toolbar.setNavigationOnClickListener{
+            onBackPressed()
+        }
         binding.ivLike.setOnClickListener {
             viewModel.onLikeClick()
         }
@@ -48,7 +62,7 @@ class PostDetailFragment : BaseFragment<FragmentPostDetailBinding, PostDetailVie
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        val inflater: MenuInflater = MenuInflater(requireContext())
+        val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_post_options, menu)
         menu.setHeaderTitle("Item will Added soon")
     }
@@ -61,11 +75,7 @@ class PostDetailFragment : BaseFragment<FragmentPostDetailBinding, PostDetailVie
     }
 
     private fun navigateToProfileDetailFragment() {
-        val bundle = bundleOf(
-            ProfileDetailFragment.USER_NAME to viewModel.name.value,
-            ProfileDetailFragment.USER_Profile to viewModel.profilePicUrl.value
-        )
-        findNavController().navigate(R.id.profileDetailFragment, bundle)
+        startActivity(ProfileDetailActivity.getStartIntent(this,viewModel.name.value?:"",viewModel.profilePicUrl.value))
     }
 
     override fun setupObservers() {
@@ -131,6 +141,6 @@ class PostDetailFragment : BaseFragment<FragmentPostDetailBinding, PostDetailVie
         })
     }
 
-    override fun injectDependencies(fragmentComponent: FragmentComponent) =
-        fragmentComponent.inject(this)
+    override fun injectDependencies(activityComponent: ActivityComponent) =
+        activityComponent.inject(this)
 }

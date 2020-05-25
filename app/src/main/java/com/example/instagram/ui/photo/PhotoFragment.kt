@@ -1,5 +1,6 @@
 package com.example.instagram.ui.photo
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +11,7 @@ import com.example.instagram.databinding.FragmentPhotoBinding
 import com.example.instagram.di.component.FragmentComponent
 import com.example.instagram.ui.base.BaseFragment
 import com.example.instagram.ui.main.MainSharedViewModel
+import com.example.instagram.utils.common.ManagePermission
 import com.mindorks.paracamera.Camera
 import timber.log.Timber
 import java.io.FileNotFoundException
@@ -18,9 +20,15 @@ import javax.inject.Inject
 class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel>() {
 
     companion object {
-
+        private val cameraRequestCode: Int = 1001
+        private val galleryRequestCode: Int = 1001
+        private val requiresPermission = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
         internal const val TAG = "PhotoFragment"
-        private const val RESULT_GALLERY_PICK = 1001
+        private const val RESULT_GALLERY_PICK = 1002
         fun newInstance(): PhotoFragment {
             val args = Bundle()
             val fragment = PhotoFragment()
@@ -41,17 +49,31 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding, PhotoViewModel>() {
     override fun setupView() {
         binding.viewCamera.setOnClickListener {
             try {
-                camera.takePicture()
+                if (ManagePermission.requestPermissions(
+                        requireActivity(),
+                        requiresPermission,
+                        cameraRequestCode
+                    )
+                        .hasPermissions()
+                )
+                    camera.takePicture()
             } catch (e: Exception) {
                 Timber.e(e)
             }
         }
 
         binding.viewGallery.setOnClickListener {
-            Intent(Intent.ACTION_PICK).apply {
-                type = "image/*"
-            }.also {
-                startActivityForResult(it, Companion.RESULT_GALLERY_PICK)
+            if (ManagePermission.requestPermissions(
+                    requireActivity(),
+                    requiresPermission,
+                    galleryRequestCode
+                ).hasPermissions()
+            ) {
+                Intent(Intent.ACTION_PICK).apply {
+                    type = "image/*"
+                }.also {
+                    startActivityForResult(it, Companion.RESULT_GALLERY_PICK)
+                }
             }
         }
     }

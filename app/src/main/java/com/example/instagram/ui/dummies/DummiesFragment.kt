@@ -2,6 +2,7 @@ package com.example.instagram.ui.dummies
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
 import com.example.instagram.databinding.FragmentDummiesBinding
@@ -23,8 +24,6 @@ class DummiesFragment : BaseFragment<FragmentDummiesBinding, DummiesViewModel>()
         }
     }
 
-    @Inject
-    lateinit var linearLayoutManager: LinearLayoutManager
 
     @Inject
     lateinit var dummiesAdapter: DummiesAdapter
@@ -43,7 +42,14 @@ class DummiesFragment : BaseFragment<FragmentDummiesBinding, DummiesViewModel>()
 
     override fun setupView() {
         binding.rvDummy.apply {
-            layoutManager = linearLayoutManager
+            layoutManager = GridLayoutManager(requireContext(),3).apply {
+                spanSizeLookup = object :GridLayoutManager.SpanSizeLookup(){
+                    override fun getSpanSize(position: Int): Int {
+                        val count = dummiesAdapter.itemCount % 3
+                        return if(position == dummiesAdapter.itemCount-1) count else 1
+                    }
+                }
+            }
             adapter = dummiesAdapter
         }
     }

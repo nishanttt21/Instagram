@@ -30,9 +30,6 @@ class ProfileViewModel(
     private val _myInfo: MutableLiveData<Me> = MutableLiveData()
     val myInfo: LiveData<Me>
         get() = _myInfo
-    private val _myPostList: MutableLiveData<List<Post>> = MutableLiveData()
-    val myPosts: LiveData<List<Post>> get() = _myPostList
-    private val currentUser = userRepository.getCurrentUser()!!
     override fun onCreate() {
 //        fetchMyInfo()
     }
@@ -44,20 +41,6 @@ class ProfileViewModel(
                 .subscribe({ user ->
                     user?.run {
                         _myInfo.postValue(this)
-                    }
-                }, {
-                    handleNetworkError(it)
-                })
-        )
-    }
-
-    fun fetchMyPostList() {
-        compositeDisposable.addAll(
-            postRepository.fetchMyPostListCall(currentUser)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    it?.let {
-                        _myPostList.postValue(it)
                     }
                 }, {
                     handleNetworkError(it)

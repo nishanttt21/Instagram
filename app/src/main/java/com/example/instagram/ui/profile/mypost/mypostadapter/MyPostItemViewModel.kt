@@ -1,4 +1,4 @@
-package com.example.instagram.ui.profile.mypost
+package com.example.instagram.ui.profile.mypost.mypostadapter
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +16,7 @@ import com.example.instagram.utils.network.NetworkHelper
 import com.example.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 class MyPostItemViewModel @Inject constructor(
@@ -28,11 +29,9 @@ class MyPostItemViewModel @Inject constructor(
     companion object {
         const val TAG = "PostItemViewModel"
     }
-    val postId : LiveData<String> = Transformations.map(data){
-        it.id
-    }
+    val postId : LiveData<String> = Transformations.map(data){ it.id }
     val image: LiveData<String> = Transformations.map(data){it.imgUrl}
     override fun onCreate() {
-        Logger.d(TAG, "onCreate called")
+        Timber.d("onCreate called")
     }
 }

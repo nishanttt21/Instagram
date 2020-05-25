@@ -1,4 +1,4 @@
-package com.example.instagram.ui.home.postdetail
+package com.example.instagram.ui.postdetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
